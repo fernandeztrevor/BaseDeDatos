@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "tpbd-c4231": {
+      "hosting": {
+        "TPBD": [
+          "tpbd-c4231"
+        ]
+      }
+    }
+  }
+}
