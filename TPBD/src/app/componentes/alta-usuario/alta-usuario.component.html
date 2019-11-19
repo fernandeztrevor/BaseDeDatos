@@ -1,0 +1,44 @@
+<mat-card>
+    <mat-card-title>
+        Registrarse
+    </mat-card-title>
+
+    <mat-card-content>
+        <form [formGroup]="usuarioForm" (ngSubmit)="guardarForm()">
+            <div class="example-container">
+                <mat-form-field>
+                    <input matInput type="text" placeholder="nombre" formControlName="nombre"
+                    name="nombre">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="text" placeholder="apellido" formControlName="apellido"
+                    name="apellido">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="email" placeholder="email" formControlName="email"
+                    name="email">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="password" placeholder="password" formControlName="password" name="password">
+                </mat-form-field>
+                <mat-form-field>
+                    <!-- <ngx-mat-file-input placeholder="Ingrese archivo de foto" [(ngModel)]="archivo" [ngModelOptions]="{standalone: true}"></ngx-mat-file-input>
+                    <mat-icon matSuffix>folder</mat-icon> -->
+                    <ngx-mat-file-input formControlName="foto"
+                    name="foto"
+                    observeFiles
+                    placeholder="Ingrese archivo de foto"></ngx-mat-file-input>
+                    <mat-icon matSuffix>folder</mat-icon>
+                </mat-form-field>
+                <button mat-raised-button type="submit">Enviar</button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>
+
+<!-- <input type="text" placeholder="nombre" (ngModel)="usuario.nombre">
+<input type="text" placeholder="apellido" (ngModel)="usuario.apellido">
+<input type="email" placeholder="email" (ngModel)="usuario.email">
+<input type="password" placeholder="password" (ngModel)="password">
+
+<button (click)="alta()">Enviar</button> -->
