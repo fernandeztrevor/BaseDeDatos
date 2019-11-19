@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore,
-  AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 //import { Usuario } from '../clases/usuario';
 import { UsuarioInt } from '../interfaces/usuario-int';
@@ -20,6 +19,7 @@ export class UsuarioService {
     private angularFireStorage: AngularFireStorage
     //private angularFireAuth: AngularFireAuth
   ) {
+    this.usuarios = this.angularFireStore.collection('usuarios');
     //this.usuario$ = this.buscarUsuarioFirebase();
   }
 
@@ -31,8 +31,7 @@ export class UsuarioService {
   }*/
 
   persistirUsuario(usuario:UsuarioInt, uid: string){
-    //this.angularFireStore.collection('/usuarios').add(Object.assign({}, JSON.parse(JSON.stringify(usuario))));
-    this.usuarios.doc(uid).set(usuario);
+     this.usuarios.doc(uid).set(usuario);
   }
 
   /*private buscarUsuarioFirebase(): Observable<any> {
