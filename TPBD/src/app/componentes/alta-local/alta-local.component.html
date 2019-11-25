@@ -1,0 +1,28 @@
+<p>alta-local works!</p>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>
+            Alta Local
+        </mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="localForm" (ngSubmit)="guardarForm()">
+        <mat-card-content>
+            <div>
+                <mat-form-field appearence="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput type="text" formControlName="nombre" name="nombre" placeholder="Direccion"/>
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field appearence="outline">
+                    <mat-label>Direccion</mat-label>
+                    <input matInput type="text" formControlName="direccion" name="direccion" placeholder="Direccion"/>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button type="submit" color="primary">Aceptar</button>
+            <button mat-raised-button (click)="cancelarForm()" color="warn">Cancelar</button>
+        </mat-card-actions>
+    </form>
+</mat-card>

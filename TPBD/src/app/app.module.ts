@@ -30,6 +30,7 @@ import { MatMenuModule } from "@angular/material/menu";
 import { LoginComponent } from './componentes/login/login.component';
 import { PaginaPrincipalComponent } from './componentes/pagina-principal/pagina-principal.component';
 import { PaginaNoEncontradaComponent } from './componentes/pagina-no-encontrada/pagina-no-encontrada.component';
+import { AltaLocalComponent } from './componentes/alta-local/alta-local.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { PaginaNoEncontradaComponent } from './componentes/pagina-no-encontrada/
     LoginComponent,
     PaginaPrincipalComponent,
     PaginaNoEncontradaComponent,
+    AltaLocalComponent,
     //LoginComponent,
     //BarraTituloComponent,
     //PaginaNoEncontradaComponent,
