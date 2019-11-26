@@ -32,7 +32,7 @@ export class AltaProductoComponent implements OnInit {
       descripcion: this.productoForm.value.descripcion,
       observaciones: this.productoForm.value.observaciones,
       foto: '',
-      activo: true
+      activo: true      
     };
     this.productoService.persistirProducto(productoTemp,  this.productoForm.value.foto.files);
     this.productoForm.reset();

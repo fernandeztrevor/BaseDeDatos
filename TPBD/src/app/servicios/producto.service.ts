@@ -15,6 +15,7 @@ import { AuthService } from './auth.service';
 })
 export class ProductoService {
   productos: AngularFirestoreCollection;
+  movimientos: AngularFirestoreCollection;
 
   constructor(private angularFirestore: AngularFirestore, private angularFireStorage: AngularFireStorage,
     private movimientoService: MovimientoService, private localService: LocalService, private authService: AuthService) {
@@ -22,18 +23,19 @@ export class ProductoService {
   }
 
   persistirProducto(producto: ProductoInt, foto: Array<File>) {
+
     this.productos.add(producto).then(doc => {
+      this.productos.doc(doc.id).update({ id: doc.id });
+
       if (foto) {
         this.subirFoto(foto[0], doc.id);
       }
-      
       this.localService.traerLocales().subscribe(locales => {
         locales.forEach(localFE => {
           let email = '';
           this.authService.traerUsuarioActivo().subscribe(usuarioAct => {
             email = usuarioAct.email;
           });
-
           const movimientosTmp = {
             tipo: TipoMovimiento.agregar,
             usuario: email,
@@ -41,7 +43,7 @@ export class ProductoService {
             local: localFE,
             cantidad: 0
           }
-          this.movimientoService.persistirMovimiento(movimientosTmp);
+          this.movimientoService.persistirMovimiento(movimientosTmp, doc.id, "productos");
         });
       });
     });

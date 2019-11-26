@@ -6,6 +6,8 @@ import { UsuarioInt } from '../interfaces/usuario-int';
 //import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { TipoMovimiento } from '../enums/tipo-movimiento.enum';
+import { MovimientoService } from './movimiento.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +18,7 @@ export class UsuarioService {
 
   constructor(
     private angularFireStore: AngularFirestore,
+    private movimientoService: MovimientoService,
     private angularFireStorage: AngularFireStorage
     //private angularFireAuth: AngularFireAuth
   ) {
@@ -32,6 +35,12 @@ export class UsuarioService {
 
   persistirUsuario(usuario:UsuarioInt, uid: string){
      this.usuarios.doc(uid).set(usuario);
+
+     const movimientosTmp = {
+      tipo: TipoMovimiento.agregar,
+      usuario: usuario.email
+    }
+     this.movimientoService.persistirMovimiento(movimientosTmp, uid, "locales");
   }
 
   /*private buscarUsuarioFirebase(): Observable<any> {

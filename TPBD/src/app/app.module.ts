@@ -31,7 +31,7 @@ import { TablaListadoLocalesComponent } from './componentes/tabla-listado-locale
 import { TablaListadoMovimientosComponent } from './componentes/tabla-listado-movimientos/tabla-listado-movimientos.component';
 import { TablaListadoProductosComponent } from './componentes/tabla-listado-productos/tabla-listado-productos.component';
 import { TablaListadoUsuariosComponent } from './componentes/tabla-listado-usuarios/tabla-listado-usuarios.component';
-import { MatSidenavModule, MatExpansionModule, MatTableModule, MatPaginatorModule } from '@angular/material';
+import { MatSidenavModule, MatExpansionModule, MatTableModule, MatPaginatorModule, MatSelectModule } from '@angular/material';
 import { ProductoService } from './servicios/producto.service';
 import { LocalService } from './servicios/local.service';
 import { BarraTituloComponent } from './componentes/barra-titulo/barra-titulo.component';
@@ -72,7 +72,8 @@ import { MovimientoService } from './servicios/movimiento.service';
     MatSidenavModule,
     MatExpansionModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSelectModule
   ],
   providers: [
     AngularFirestore,

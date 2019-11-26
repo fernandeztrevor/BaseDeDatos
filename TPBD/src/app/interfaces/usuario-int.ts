@@ -7,4 +7,5 @@ export interface UsuarioInt {
     foto: string;
     activo: boolean;
     rol: Rol;
+    id?: string;
 }

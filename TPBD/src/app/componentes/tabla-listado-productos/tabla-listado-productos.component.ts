@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material';
 import { ProductoService } from 'src/app/servicios/producto.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { AuthService } from 'src/app/servicios/auth.service';
+import { UsuarioInt } from 'src/app/interfaces/usuario-int';
 
 @Component({
   selector: 'app-tabla-listado-productos',
@@ -22,8 +24,10 @@ export class TablaListadoProductosComponent implements OnInit {
   columnasTabla: string[];
   datosTabla: MatTableDataSource<any>;
   productoExpandido: ['foto', 'description', 'observaciones'] | null;
+  usuario$: Observable<UsuarioInt>;
+  nombreApellido: string;
 
-  constructor(private productoService: ProductoService) { }
+  constructor(private productoService: ProductoService, private authService: AuthService) { }
 
   ngOnInit() {
     this.lista$ = this.productoService.traerProductos();
@@ -53,6 +57,20 @@ export class TablaListadoProductosComponent implements OnInit {
 
   deshabilitarProductos(id: string) {
     this.productoService.deshabilitarProducto(id);
+  }
+
+  cambiarCantidadProducto(cantidad: number){
+    
+    
+    this.usuario$ = this.authService.traerUsuarioActivo();
+    console.log(cantidad);  
+    
+    this.usuario$.subscribe(usuario => {      
+      this.nombreApellido = usuario.nombre + ' ' + usuario.apellido;
+      console.log("El usuario "+this.nombreApellido+" cambio la cantidad a "+cantidad);
+    });
+
+    
   }
 
 }

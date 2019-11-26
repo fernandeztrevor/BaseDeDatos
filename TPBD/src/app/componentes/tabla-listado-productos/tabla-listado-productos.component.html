@@ -16,7 +16,11 @@
 
         <ng-container matColumnDef="cantidad">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
-            <td mat-cell *matCellDef="let producto">{{ producto.cantidad }}</td>
+            <!-- <td mat-cell *matCellDef="let producto">{{ producto.cantidad }}</td> -->
+
+            <td mat-cell *matCellDef="let producto">
+                <input matInput type="number" min="0" value='{{ producto.cantidad }}' (change)="cambiarCantidadProducto(this.cantidad.value)"/>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="fechaCreacion">
@@ -41,6 +45,8 @@
             </td>
         </ng-container> -->
 
+
+
         <ng-container *ngIf="rol == 'Administrador'" matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
             <td mat-cell *matCellDef="let producto">
@@ -58,7 +64,6 @@
                         <div><img [src]="producto.foto" width="20px" height="20px" /></div>
                         <div><span>{{ producto.descripcion }}</span></div>
                         <div><span>{{ producto.observaciones }}</span></div>
-                        
                     </div>
                 </div>
             </td>

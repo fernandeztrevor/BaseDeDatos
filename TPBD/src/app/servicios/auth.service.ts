@@ -33,8 +33,9 @@ export class AuthService {
     try {
       const res = await this.angularFireAuth.auth.createUserWithEmailAndPassword(
         usuario.email,
-        password
+        password,        
       );
+      usuario.id = res.user.uid;
       this.userService.persistirUsuario(usuario, res.user.uid);
       if (!(foto === undefined)) {
         this.userService.subirFoto(foto[0], res.user.uid);
@@ -53,6 +54,7 @@ export class AuthService {
       const res = await this.angularFireAuth.auth.signInWithEmailAndPassword(
         email,
         password
+
       );
     } catch (err) {
       salida = err.message;
