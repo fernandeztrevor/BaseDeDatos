@@ -19,18 +19,23 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AltaProductoComponent } from "./componentes/alta-producto/alta-producto.component";
 import { AltaUsuarioComponent } from "./componentes/alta-usuario/alta-usuario.component";
-//import { BarraTituloComponent } from "./componentes/barra-titulo/barra-titulo.component";
-//import { LoginComponent } from "./componentes/login/login.component";
 import { AuthService } from "./servicios/auth.service";
 import { UsuarioService } from "./servicios/usuario.service";
-//import { PaginaNoEncontradaComponent } from "./componentes/pagina-no-encontrada/pagina-no-encontrada.component";
-//import { PaginaPrincipalComponent } from "./componentes/pagina-principal/pagina-principal.component";
-//import { BarraHerramientasComponent } from "./componentes/barra-herramientas/barra-herramientas.component";
 import { MatMenuModule } from "@angular/material/menu";
 import { LoginComponent } from './componentes/login/login.component';
 import { PaginaPrincipalComponent } from './componentes/pagina-principal/pagina-principal.component';
 import { PaginaNoEncontradaComponent } from './componentes/pagina-no-encontrada/pagina-no-encontrada.component';
 import { AltaLocalComponent } from './componentes/alta-local/alta-local.component';
+import { BarraHerramientasComponent } from './componentes/barra-herramientas/barra-herramientas.component';
+import { TablaListadoLocalesComponent } from './componentes/tabla-listado-locales/tabla-listado-locales.component';
+import { TablaListadoMovimientosComponent } from './componentes/tabla-listado-movimientos/tabla-listado-movimientos.component';
+import { TablaListadoProductosComponent } from './componentes/tabla-listado-productos/tabla-listado-productos.component';
+import { TablaListadoUsuariosComponent } from './componentes/tabla-listado-usuarios/tabla-listado-usuarios.component';
+import { MatSidenavModule, MatExpansionModule, MatTableModule, MatPaginatorModule } from '@angular/material';
+import { ProductoService } from './servicios/producto.service';
+import { LocalService } from './servicios/local.service';
+import { BarraTituloComponent } from './componentes/barra-titulo/barra-titulo.component';
+import { MovimientoService } from './servicios/movimiento.service';
 
 @NgModule({
   declarations: [
@@ -41,11 +46,12 @@ import { AltaLocalComponent } from './componentes/alta-local/alta-local.componen
     PaginaPrincipalComponent,
     PaginaNoEncontradaComponent,
     AltaLocalComponent,
-    //LoginComponent,
-    //BarraTituloComponent,
-    //PaginaNoEncontradaComponent,
-    //PaginaPrincipalComponent,
-    //BarraHerramientasComponent
+    BarraHerramientasComponent,
+    TablaListadoLocalesComponent,
+    TablaListadoMovimientosComponent,
+    TablaListadoProductosComponent,
+    TablaListadoUsuariosComponent,
+    BarraTituloComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +68,11 @@ import { AltaLocalComponent } from './componentes/alta-local/alta-local.componen
     MaterialFileInputModule,
     MatToolbarModule,
     MatDividerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSidenavModule,
+    MatExpansionModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [
     AngularFirestore,
@@ -70,8 +80,11 @@ import { AltaLocalComponent } from './componentes/alta-local/alta-local.componen
     AngularFireAuth,
     AuthService,
     UsuarioService,
-    FormBuilder
+    FormBuilder,
+    ProductoService,
+    LocalService,
+    MovimientoService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

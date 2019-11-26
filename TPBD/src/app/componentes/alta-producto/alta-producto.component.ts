@@ -15,7 +15,8 @@ export class AltaProductoComponent implements OnInit {
       nombre: new FormControl(''),
       costo: new FormControl(''),
       descripcion: new FormControl(''),
-      observaciones: new FormControl('')
+      observaciones: new FormControl(''),
+      foto: new FormControl('')
     });
   }
 
@@ -30,9 +31,10 @@ export class AltaProductoComponent implements OnInit {
       fechaCreacion: new Date(),
       descripcion: this.productoForm.value.descripcion,
       observaciones: this.productoForm.value.observaciones,
+      foto: '',
       activo: true
     };
-    this.productoService.persistirProducto(productoTemp);
+    this.productoService.persistirProducto(productoTemp,  this.productoForm.value.foto.files);
     this.productoForm.reset();
   }
 

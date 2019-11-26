@@ -1,10 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario } from 'src/app/clases/usuario';
-import { UsuarioService } from 'src/app/servicios/usuario.service';
-import { AngularFireStorage } from '@angular/fire/storage';
-import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
 import { Rol } from 'src/app/enums/rol.enum';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -40,6 +34,7 @@ export class AltaUsuarioComponent implements OnInit {
     const usuarioTmp = {
       nombre: this.usuarioForm.value.nombre,
       apellido: this.usuarioForm.value.apellido,
+      email: this.usuarioForm.value.email,
       foto: '',
       activo: true,
       rol: Rol.Usuario
@@ -47,12 +42,12 @@ export class AltaUsuarioComponent implements OnInit {
 
     this.authService.registracion(
       usuarioTmp,
-      this.usuarioForm.value.email,
       this.usuarioForm.value.password,
       this.usuarioForm.value.foto.files
     );
 
-    this.borrarForm();
+    //this.borrarForm();
+    this.cancelarForm();
   }
 
   cancelarForm(){

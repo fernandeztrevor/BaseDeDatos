@@ -5,5 +5,6 @@ export interface ProductoInt {
     fechaCreacion: Date;
     descripcion: string;
     observaciones: string;
+    foto: string;
     activo: boolean;
 }

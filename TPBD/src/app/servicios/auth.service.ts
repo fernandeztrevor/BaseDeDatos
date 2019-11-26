@@ -24,15 +24,15 @@ export class AuthService {
 
   async registracion(
     usuario: UsuarioInt,
-    email: string,
+    //email: string,
     password: string,
     foto: Array<File>
   ): Promise<string> {
-    let salida = 'Se dio de alta un nuevo usuario';
+    let salida = 'Usuario dado de alta';
 
     try {
       const res = await this.angularFireAuth.auth.createUserWithEmailAndPassword(
-        email,
+        usuario.email,
         password
       );
       this.userService.persistirUsuario(usuario, res.user.uid);
@@ -103,5 +103,5 @@ export class AuthService {
   traerUsuarioActivo(): Observable<UsuarioInt> {
     return this.usuario$;
   }
-  
+
 }

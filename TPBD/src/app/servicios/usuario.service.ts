@@ -4,8 +4,8 @@ import { AngularFireStorage } from '@angular/fire/storage';
 //import { Usuario } from '../clases/usuario';
 import { UsuarioInt } from '../interfaces/usuario-int';
 //import { AngularFireAuth } from '@angular/fire/auth';
-//import { Observable, of } from 'rxjs';
-//import { switchMap, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class UsuarioService {
     private angularFireStorage: AngularFireStorage
     //private angularFireAuth: AngularFireAuth
   ) {
-    this.usuarios = this.angularFireStore.collection('usuarios');
+    this.usuarios = this.angularFireStore.collection<UsuarioInt>('usuarios');
     //this.usuario$ = this.buscarUsuarioFirebase();
   }
 
@@ -77,5 +77,19 @@ export class UsuarioService {
           });
         });
     });
+  }
+
+  deshabilitarUsuario(uid: string){
+    this.usuarios.doc(uid).update({activo: false});
+  }
+
+  traerUsuarios(): Observable<any[]>{
+    return this.usuarios.snapshotChanges().pipe(map(actions =>{
+      return actions.map(action =>{
+        const datos = action.payload.doc.data() as UsuarioInt;
+        const id = action.payload.doc.id;
+        return {id, ...datos};
+      });
+    }));
   }
 }
