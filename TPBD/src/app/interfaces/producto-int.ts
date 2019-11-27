@@ -8,4 +8,5 @@ export interface ProductoInt {
     foto: string;
     activo: boolean;
     id?: string;
+    local: string;
 }

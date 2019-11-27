@@ -22,7 +22,7 @@ export class ProductoService {
     this.productos = this.angularFirestore.collection<ProductoInt>('productos');
   }
 
-  persistirProducto(producto: ProductoInt, foto: Array<File>) {
+  persistirProducto(producto: ProductoInt, foto?: Array<File>) {
 
     this.productos.add(producto).then(doc => {
       this.productos.doc(doc.id).update({ id: doc.id });
@@ -68,15 +68,18 @@ export class ProductoService {
   subirFoto(foto: File, uid: string) {
     const pathFoto = `imagenesProductos/${uid}`;
     const tarea = this.angularFireStorage.upload(pathFoto, foto);
+    
     tarea.then(() => {
       this.angularFireStorage
         .ref(pathFoto)
         .getDownloadURL()
-        .subscribe(url => {
-          this.productos.doc(uid).update({
-            foto: url
-          });
-        });
+        // .subscribe(url => {
+        //   this.productos.doc(uid).update({
+        //   foto: url
+        //   });
+          
+        // });
     });
+    
   }
 }

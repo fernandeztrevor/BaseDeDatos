@@ -33,6 +33,11 @@
             </td>
         </ng-container>
 
+        <ng-container *ngIf="rol == 'Administrador'" matColumnDef="local">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Local</th>
+            <td mat-cell *matCellDef="let producto">$ {{ producto.local }}</td>
+        </ng-container>
+
         <ng-container matColumnDef="activo">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Activo</th>
             <td mat-cell *matCellDef="let producto">{{ producto.activo }}</td>

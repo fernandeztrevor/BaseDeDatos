@@ -38,6 +38,7 @@ export class TablaListadoProductosComponent implements OnInit {
         'costo',
         'cantidad',
         'fechaCreacion',
+        'local',
         'activo',
         'id'
       ];
