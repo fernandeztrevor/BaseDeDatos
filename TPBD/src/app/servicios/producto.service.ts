@@ -57,7 +57,7 @@ export class ProductoService {
     return this.productos.snapshotChanges().pipe(
       map(actions => {
         return actions.map(action => {
-          const datos = action.payload.doc.data() as ProductoInt;
+          const datos = action.payload.doc.data() as ProductoInt;          
           const id = action.payload.doc.id;
           return { id, ...datos };
         });

@@ -5,6 +5,8 @@ import { ProductoService } from 'src/app/servicios/producto.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { UsuarioInt } from 'src/app/interfaces/usuario-int';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { ProductoInt } from 'src/app/interfaces/producto-Int';
 
 @Component({
   selector: 'app-tabla-listado-productos',
@@ -26,12 +28,16 @@ export class TablaListadoProductosComponent implements OnInit {
   productoExpandido: ['foto', 'description', 'observaciones'] | null;
   usuario$: Observable<UsuarioInt>;
   nombreApellido: string;
+  productos: AngularFirestoreCollection;
+  cantidadNueva:number = 0;
 
-  constructor(private productoService: ProductoService, private authService: AuthService) { }
+  constructor(private productoService: ProductoService, private authService: AuthService, private angularFireStore: AngularFirestore) { 
+    this.productos = this.angularFireStore.collection<ProductoInt>('productos');
+  }
 
   ngOnInit() {
     this.lista$ = this.productoService.traerProductos();
-    console.log(this.lista$);
+    //console.log(this.lista$);
     if (this.rol === 'Administrador') {
       this.columnasTabla = [
         'nombre',
@@ -48,6 +54,7 @@ export class TablaListadoProductosComponent implements OnInit {
         'costo',
         'cantidad',
         'fechaCreacion',
+        'local',
         'activo'
       ];
     }
@@ -60,18 +67,32 @@ export class TablaListadoProductosComponent implements OnInit {
     this.productoService.deshabilitarProducto(id);
   }
 
-  cambiarCantidadProducto(cantidad: number){
-    
-    
+  cambiarCantidadProducto(cantidad: number, id:string){
+        
     this.usuario$ = this.authService.traerUsuarioActivo();
-    console.log(cantidad);  
+    //console.log(cantidad);  
     
     this.usuario$.subscribe(usuario => {      
-      this.nombreApellido = usuario.nombre + ' ' + usuario.apellido;
-      console.log("El usuario "+this.nombreApellido+" cambio la cantidad a "+cantidad);
+      //this.nombreApellido = usuario.nombre + ' ' + usuario.apellido;
+      //console.log("El usuario "+this.nombreApellido+" cambio la cantidad a "+cantidad+id  );    
+      
+      
+      this.productos.doc(`${id}`).ref.get().then(
+        product => {
+          let cant:number;
+          cant = product.get('cantidad');
+          cant= cant+cantidad;
+          console.log(cant, cantidad);
+          this.productos.doc(id).update({cantidad: cant});
+        }
+        
+      );
+      //   console.log(cant);
+      // cant= cant+cantidad;
+      // this.productos.doc(id).update({cantidad: cant});
     });
 
-    
+    this.cantidadNueva=0;
   }
 
 }

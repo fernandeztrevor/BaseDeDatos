@@ -91,6 +91,10 @@ export class UsuarioService {
   deshabilitarUsuario(uid: string){
     this.usuarios.doc(uid).update({activo: false});
   }
+  
+  habilitarUsuario(uid: string){
+    this.usuarios.doc(uid).update({activo: true});
+  }
 
   traerUsuarios(): Observable<any[]>{
     return this.usuarios.snapshotChanges().pipe(map(actions =>{

@@ -47,4 +47,8 @@ export class TablaListadoUsuariosComponent implements OnInit {
     this.usuarioService.deshabilitarUsuario(id);
   }
 
+  habilitarUsuario(id: string) {
+    this.usuarioService.habilitarUsuario(id);
+  }
+
 }

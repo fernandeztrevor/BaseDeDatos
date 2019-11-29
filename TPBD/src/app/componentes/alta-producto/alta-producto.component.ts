@@ -39,9 +39,14 @@ export class AltaProductoComponent implements OnInit {
 
     //const urlFoto = this.productoService.subirFoto(this.productoForm.value.foto.files[0], this.productoForm.value.nombre);
     //const tarea = this.productoService.subirFoto(this.productoForm.value.foto.files[0], this.productoForm.value.nombre);
-    const foto = this.productoForm.value.foto.files;
+   // const foto = this.productoForm.value.foto.files;
     const pathFoto = `imagenesProductos/${this.productoForm.value.nombre}`;
     const tarea = this.angularFireStorage.upload(pathFoto, this.productoForm.value.foto.files[0]);
+    const nombre = this.productoForm.value.nombre;
+    const costo = this.productoForm.value.costo;
+    const descripcion = this.productoForm.value.descripcion;
+    const observaciones = this.productoForm.value.observaciones;
+
 
     tarea.then(() => {
       this.angularFireStorage
@@ -52,16 +57,22 @@ export class AltaProductoComponent implements OnInit {
           this.localService.traerLocales().subscribe(locales => {
             locales.forEach(localFE => {
               let email = '';
+              let idUsuario = '';
               this.authService.traerUsuarioActivo().subscribe(usuarioAct => {
                 email = usuarioAct.email;
+                idUsuario = usuarioAct.id;
               });
               const productoTemp = {
-                nombre: this.productoForm.value.nombre,
-                costo: this.productoForm.value.costo,
+                // nombre: this.productoForm.value.nombre,
+                // costo: this.productoForm.value.costo,
+                nombre: nombre,
+                costo: costo,
                 cantidad: 0,
                 fechaCreacion: new Date(),
-                descripcion: this.productoForm.value.descripcion,
-                observaciones: this.productoForm.value.observaciones,
+                // descripcion: this.productoForm.value.descripcion,
+                // observaciones: this.productoForm.value.observaciones,
+                descripcion: descripcion,
+                observaciones: observaciones,
                 foto: url,
                 activo: true,
                 local: localFE.nombre
@@ -79,10 +90,9 @@ export class AltaProductoComponent implements OnInit {
                   cantidad: 0
                 }
                 this.movimientoService.persistirMovimiento(movimientosTmp, doc.id, "productos");
-
+                this.movimientoService.persistirMovimiento(movimientosTmp, idUsuario , "usuarios");                
+                this.movimientoService.persistirMovimiento(movimientosTmp, localFE.id , "locales");
               });
-
-
             });
 
             //  this.productos.doc(uid).update({

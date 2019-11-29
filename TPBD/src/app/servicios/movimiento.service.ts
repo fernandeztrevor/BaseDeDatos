@@ -17,7 +17,7 @@ export class MovimientoService {
 
   persistirMovimiento(movimiento: MovimientoInt, id: string, tipo: string) {
     const path = `${tipo}/${id}/movimientos`;
-    console.log(path);
+    
     this.movimientos = this.angularFirestore.collection<MovimientoInt>(path);
 
     this.movimientos.add(movimiento);
