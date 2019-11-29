@@ -82,7 +82,7 @@ export class TablaListadoProductosComponent implements OnInit {
         product => {
           let cant: number;
           let idLocal: string;
-          
+
           cant = product.get('cantidad');
           cant = cant + cantidad;
           console.log(cant, cantidad);
@@ -156,13 +156,9 @@ export class TablaListadoProductosComponent implements OnInit {
             this.movimientoService.persistirMovimiento(movimientosTmp, usuario.id, "usuarios");
             this.movimientoService.persistirMovimiento(movimientosTmp, idLocal, "locales");
           });
-
-
         }
-
       );
     });
-
     this.cantidadNueva = 0;
   }
 

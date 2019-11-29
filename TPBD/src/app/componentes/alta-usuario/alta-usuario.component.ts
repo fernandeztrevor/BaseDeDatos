@@ -3,6 +3,9 @@ import { Rol } from 'src/app/enums/rol.enum';
 import { Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/servicios/auth.service';
+import { LocalInt } from 'src/app/interfaces/local-Int';
+import { LocalService } from 'src/app/servicios/local.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-alta-usuario',
@@ -12,18 +15,22 @@ import { AuthService } from 'src/app/servicios/auth.service';
 export class AltaUsuarioComponent implements OnInit {
 
   public usuarioForm: FormGroup;
+  public locales:Observable<any[]>;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router, private localService:LocalService) {
     this.usuarioForm = new FormGroup({
       nombre: new FormControl(''),
       apellido: new FormControl(''),
       email: new FormControl(''),
       password: new FormControl(''),
-      foto: new FormControl('')
+      foto: new FormControl(''),
+      local: new FormControl('')
     });
+    this.locales=this.localService.traerLocales();
    }
 
   ngOnInit() {
+    //this.locales = this.localService.traerLocales();
   }
 
   private borrarForm() {

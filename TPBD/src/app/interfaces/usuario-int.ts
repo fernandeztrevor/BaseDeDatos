@@ -8,4 +8,5 @@ export interface UsuarioInt {
     activo: boolean;
     rol: Rol;
     id?: string;
+    local?: string;
 }
