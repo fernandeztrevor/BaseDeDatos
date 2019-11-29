@@ -7,6 +7,10 @@ import { AuthService } from 'src/app/servicios/auth.service';
 import { UsuarioInt } from 'src/app/interfaces/usuario-int';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { ProductoInt } from 'src/app/interfaces/producto-Int';
+import { MovimientoService } from 'src/app/servicios/movimiento.service';
+import { TipoMovimiento } from '../../enums/tipo-movimiento.enum';
+import { LocalService } from 'src/app/servicios/local.service';
+import { LOADIPHLPAPI } from 'dns';
 
 @Component({
   selector: 'app-tabla-listado-productos',
@@ -29,9 +33,9 @@ export class TablaListadoProductosComponent implements OnInit {
   usuario$: Observable<UsuarioInt>;
   nombreApellido: string;
   productos: AngularFirestoreCollection;
-  cantidadNueva:number = 0;
+  cantidadNueva: number = 0;
 
-  constructor(private productoService: ProductoService, private authService: AuthService, private angularFireStore: AngularFirestore) { 
+  constructor(private productoService: ProductoService, private authService: AuthService, private angularFireStore: AngularFirestore, private movimientoService: MovimientoService, private localService: LocalService) {
     this.productos = this.angularFireStore.collection<ProductoInt>('productos');
   }
 
@@ -67,49 +71,99 @@ export class TablaListadoProductosComponent implements OnInit {
     this.productoService.deshabilitarProducto(id);
   }
 
-  sumarCantidadProducto(cantidad: number, id:string){
-        
+  sumarCantidadProducto(cantidad: number, id: string) {
+
     this.usuario$ = this.authService.traerUsuarioActivo();
-    
-    this.usuario$.subscribe(usuario => { 
-      
-      
+
+    this.usuario$.subscribe(usuario => {
+
+
       this.productos.doc(`${id}`).ref.get().then(
         product => {
-          let cant:number;
+          let cant: number;
+          let idLocal: string;
+          
           cant = product.get('cantidad');
-          cant= cant+cantidad;
+          cant = cant + cantidad;
           console.log(cant, cantidad);
-          this.productos.doc(id).update({cantidad: cant});
+          this.productos.doc(id).update({ cantidad: cant });
+
+          const movimientosTmp = {
+            tipo: TipoMovimiento.agregar,
+            usuario: usuario.email,
+            producto: product.get('nombre'),
+            local: product.get('local'),
+            cantidad: 0
+          }
+
+          this.localService.traerLocales().subscribe(locales => {
+            locales.forEach(localFE => {
+
+              if (localFE.nombre == product.get('local')) {
+                idLocal = localFE.id;
+                //console.log(localFE.id, product.get('local'));
+              }
+            });
+            //console.log(idLocal, movimientosTmp);
+            this.movimientoService.persistirMovimiento(movimientosTmp, id, "productos");
+            this.movimientoService.persistirMovimiento(movimientosTmp, usuario.id, "usuarios");
+            this.movimientoService.persistirMovimiento(movimientosTmp, idLocal, "locales");
+          });
         }
-        
+
       );
-      
+
     });
 
-    this.cantidadNueva=0;
+    this.cantidadNueva = 0;
   }
 
-  restarCantidadProducto(cantidad: number, id:string){
-        
+  restarCantidadProducto(cantidad: number, id: string) {
+
     this.usuario$ = this.authService.traerUsuarioActivo();
-    
-    this.usuario$.subscribe(usuario => {        
-      
+
+    this.usuario$.subscribe(usuario => {
+
       this.productos.doc(`${id}`).ref.get().then(
         product => {
-          let cant:number;
+          let cant: number;
+          let idLocal: string;
+
           cant = product.get('cantidad');
-          if(cant >= cantidad){
-            cant= cant-cantidad;
-            this.productos.doc(id).update({cantidad: cant});
+          if (cant >= cantidad) {
+            cant = cant - cantidad;
+            this.productos.doc(id).update({ cantidad: cant });
           }
-          console.log(cant, cantidad);
+          //console.log(cant, cantidad);
+          const movimientosTmp = {
+            tipo: TipoMovimiento.sacar,
+            usuario: usuario.email,
+            producto: product.get('nombre'),
+            local: product.get('local'),
+            cantidad: 0
+          }
+
+          this.localService.traerLocales().subscribe(locales => {
+            locales.forEach(localFE => {
+
+              if (localFE.nombre == product.get('local')) {
+                idLocal = localFE.id;
+                //console.log(localFE.id, product.get('local'));
+              }
+            });
+            //console.log(idLocal, movimientosTmp);
+            this.movimientoService.persistirMovimiento(movimientosTmp, id, "productos");
+            this.movimientoService.persistirMovimiento(movimientosTmp, usuario.id, "usuarios");
+            this.movimientoService.persistirMovimiento(movimientosTmp, idLocal, "locales");
+          });
+
+
         }
+
       );
     });
 
-    this.cantidadNueva=0;
+    this.cantidadNueva = 0;
   }
 
 }

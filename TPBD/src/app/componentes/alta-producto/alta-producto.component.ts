@@ -19,7 +19,8 @@ export class AltaProductoComponent implements OnInit {
   //lista$: Observable<any[]>;
   public productos: AngularFirestoreCollection;
 
-  constructor(private angularFirestore: AngularFirestore, private productoService: ProductoService, private localService: LocalService, private authService: AuthService, private angularFireStorage: AngularFireStorage, private movimientoService: MovimientoService) {
+  constructor(private angularFirestore: AngularFirestore, private productoService: ProductoService, private localService: LocalService, private authService: AuthService, 
+    private angularFireStorage: AngularFireStorage, private movimientoService: MovimientoService) {
     this.productoForm = new FormGroup({
       nombre: new FormControl(''),
       costo: new FormControl(''),
@@ -83,7 +84,7 @@ export class AltaProductoComponent implements OnInit {
                 this.productos.doc(doc.id).update({ id: doc.id });
 
                 const movimientosTmp = {
-                  tipo: TipoMovimiento.agregar,
+                  tipo: TipoMovimiento.crear,
                   usuario: email,
                   producto: productoTemp.nombre,
                   local: localFE,
