@@ -54,14 +54,14 @@
 
 
 
-        <ng-container *ngIf="rol == 'Administrador'" matColumnDef="id">
+        <!-- <ng-container *ngIf="rol == 'Administrador'" matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
             <td mat-cell *matCellDef="let producto">
                 <button mat-flat-button mat-button color="warn" (click)="deshabilitarProducto(producto.id)">
                     Deshabilitar
                 </button>
             </td>
-        </ng-container>
+        </ng-container> -->
 
         <ng-container matColumnDef="detalle">
             <td mat-cell *matCellDef="let producto" [attr.colspan]="columnasTabla.length">
@@ -78,6 +78,13 @@
                             <button mat-flat-button mat-button (click)="restarCantidadProducto(cantidadNueva, producto.id)">
                                 Sacar
                             </button>
+                        </div>
+                        <div *ngIf="rol == 'Administrador'">
+                            <button mat-flat-button mat-button *ngIf="producto.activo" color="warn" (click)="deshabilitarProductos(producto.id)">
+                                Deshabilitar
+                            </button>
+                            <button mat-flat-button mat-button *ngIf="!producto.activo" color="accent"
+                            (click)="habilitarProductos(producto.id)">Habilitar</button>
                         </div>
                     </div>
                 </div>

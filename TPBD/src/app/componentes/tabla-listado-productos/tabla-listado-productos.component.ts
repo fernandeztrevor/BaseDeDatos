@@ -50,7 +50,7 @@ export class TablaListadoProductosComponent implements OnInit {
         'fechaCreacion',
         'local',
         'activo',
-        'id'
+        //'id'
       ];
     } else {
       this.columnasTabla = [
@@ -69,6 +69,9 @@ export class TablaListadoProductosComponent implements OnInit {
 
   deshabilitarProductos(id: string) {
     this.productoService.deshabilitarProducto(id);
+  }
+  habilitarProductos(id: string) {
+    this.productoService.habilitarProducto(id);
   }
 
   sumarCantidadProducto(cantidad: number, id: string) {

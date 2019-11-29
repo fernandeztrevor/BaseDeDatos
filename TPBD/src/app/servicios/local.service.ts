@@ -66,6 +66,10 @@ export class LocalService {
     this.locales.doc(uid).update({ activo: false });
   }
 
+  habilitarLocal(uid: string) {
+    this.locales.doc(uid).update({ activo: true });
+  }
+
   traerLocales(): Observable<any[]> {
     return this.locales.snapshotChanges().pipe(
       map(actions => {

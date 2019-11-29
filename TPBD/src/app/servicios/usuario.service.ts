@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TipoMovimiento } from '../enums/tipo-movimiento.enum';
 import { MovimientoService } from './movimiento.service';
+import { LocalService } from './local.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +19,12 @@ export class UsuarioService {
   usuarios: AngularFirestoreCollection;
 
   constructor(
+    
     private angularFireStore: AngularFirestore,
     private movimientoService: MovimientoService,
-    private angularFireStorage: AngularFireStorage
+    private angularFireStorage: AngularFireStorage,
+    //private localService: LocalService,
+    //private authService: AuthService
     //private angularFireAuth: AngularFireAuth
   ) {
     this.usuarios = this.angularFireStore.collection<UsuarioInt>('usuarios');
@@ -33,14 +38,22 @@ export class UsuarioService {
       .set(Object.assign({}, JSON.parse(JSON.stringify(usuario))));
   }*/
 
-  persistirUsuario(usuario:UsuarioInt, uid: string){
-     this.usuarios.doc(uid).set(usuario);
+  persistirUsuario(usuario: UsuarioInt, uid: string) {
+    this.usuarios.doc(uid).set(usuario);
 
      const movimientosTmp = {
-      tipo: TipoMovimiento.agregar,
-      usuario: usuario.email
-    }
-     this.movimientoService.persistirMovimiento(movimientosTmp, uid, "locales");
+       tipo: TipoMovimiento.crear,
+       usuario: usuario.email
+     }
+    //  let localId: string;
+    //  this.localService.traerLocales().subscribe(locales => {
+    //    locales.forEach(localFE => {
+    //      if (localFE.nombre == usuario.local) {
+    //        localId = localFE.id;
+    //      }
+    //  });
+    //   this.movimientoService.persistirMovimiento(movimientosTmp, localId, "locales");
+    // });
   }
 
   /*private buscarUsuarioFirebase(): Observable<any> {
@@ -73,36 +86,38 @@ export class UsuarioService {
   traerUsuarioActivo(): Observable<any> {
     return this.usuario$;
   }*/
+
+
   subirFoto(foto: File, uid: string) {
-    const pathFoto = `imagenes/${uid}`;
-    const tarea = this.angularFireStorage.upload(pathFoto, foto);
-    tarea.then(() => {
-      this.angularFireStorage
-        .ref(pathFoto)
-        .getDownloadURL()
-        .subscribe(url => {
-          this.usuarios.doc(uid).update({
-            foto: url
+      const pathFoto = `imagenes/${uid}`;
+      const tarea = this.angularFireStorage.upload(pathFoto, foto);
+      tarea.then(() => {
+        this.angularFireStorage
+          .ref(pathFoto)
+          .getDownloadURL()
+          .subscribe(url => {
+            this.usuarios.doc(uid).update({
+              foto: url
+            });
           });
-        });
-    });
-  }
+      });
+    }
 
   deshabilitarUsuario(uid: string){
-    this.usuarios.doc(uid).update({activo: false});
-  }
+      this.usuarios.doc(uid).update({ activo: false });
+    }
   
   habilitarUsuario(uid: string){
-    this.usuarios.doc(uid).update({activo: true});
-  }
+      this.usuarios.doc(uid).update({ activo: true });
+    }
 
-  traerUsuarios(): Observable<any[]>{
-    return this.usuarios.snapshotChanges().pipe(map(actions =>{
-      return actions.map(action =>{
-        const datos = action.payload.doc.data() as UsuarioInt;
-        const id = action.payload.doc.id;
-        return {id, ...datos};
-      });
-    }));
-  }
+  traerUsuarios(): Observable < any[] > {
+      return this.usuarios.snapshotChanges().pipe(map(actions => {
+        return actions.map(action => {
+          const datos = action.payload.doc.data() as UsuarioInt;
+          const id = action.payload.doc.id;
+          return { id, ...datos };
+        });
+      }));
+    }
 }
