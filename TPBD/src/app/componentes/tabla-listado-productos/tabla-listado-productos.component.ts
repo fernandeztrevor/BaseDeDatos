@@ -67,14 +67,11 @@ export class TablaListadoProductosComponent implements OnInit {
     this.productoService.deshabilitarProducto(id);
   }
 
-  cambiarCantidadProducto(cantidad: number, id:string){
+  sumarCantidadProducto(cantidad: number, id:string){
         
     this.usuario$ = this.authService.traerUsuarioActivo();
-    //console.log(cantidad);  
     
-    this.usuario$.subscribe(usuario => {      
-      //this.nombreApellido = usuario.nombre + ' ' + usuario.apellido;
-      //console.log("El usuario "+this.nombreApellido+" cambio la cantidad a "+cantidad+id  );    
+    this.usuario$.subscribe(usuario => { 
       
       
       this.productos.doc(`${id}`).ref.get().then(
@@ -87,9 +84,29 @@ export class TablaListadoProductosComponent implements OnInit {
         }
         
       );
-      //   console.log(cant);
-      // cant= cant+cantidad;
-      // this.productos.doc(id).update({cantidad: cant});
+      
+    });
+
+    this.cantidadNueva=0;
+  }
+
+  restarCantidadProducto(cantidad: number, id:string){
+        
+    this.usuario$ = this.authService.traerUsuarioActivo();
+    
+    this.usuario$.subscribe(usuario => {        
+      
+      this.productos.doc(`${id}`).ref.get().then(
+        product => {
+          let cant:number;
+          cant = product.get('cantidad');
+          if(cant >= cantidad){
+            cant= cant-cantidad;
+            this.productos.doc(id).update({cantidad: cant});
+          }
+          console.log(cant, cantidad);
+        }
+      );
     });
 
     this.cantidadNueva=0;

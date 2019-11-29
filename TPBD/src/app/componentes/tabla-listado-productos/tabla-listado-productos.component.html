@@ -72,10 +72,10 @@
                         <div><span>{{ producto.descripcion }}</span></div>
                         <div><span>{{ producto.observaciones }}</span></div>
                         <div><input matInput type="number" min="0" [(ngModel)]="cantidadNueva" >
-                            <button mat-flat-button mat-button (click)="cambiarCantidadProducto(cantidadNueva, producto.id)">
+                            <button mat-flat-button mat-button (click)="sumarCantidadProducto(cantidadNueva, producto.id)">
                                 Agregar
                             </button>
-                            <button mat-flat-button mat-button >
+                            <button mat-flat-button mat-button (click)="restarCantidadProducto(cantidadNueva, producto.id)">
                                 Sacar
                             </button>
                         </div>
