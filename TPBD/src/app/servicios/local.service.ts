@@ -18,28 +18,28 @@ export class LocalService {
   usuario: UsuarioInt;
 
   constructor(private angularFirestore: AngularFirestore, private authService: AuthService,
-     private movimientoService: MovimientoService, private usuarioService: UsuarioService, angularFireAuth: AngularFireAuth) {
+    private movimientoService: MovimientoService, private usuarioService: UsuarioService, angularFireAuth: AngularFireAuth) {
     this.locales = this.angularFirestore.collection<LocalInt>('locales');
   }
 
   persistirLocal(local: LocalInt) {
     this.locales.add(local).then(doc => {
-      this.locales.doc(doc.id).update({id: doc.id}); 
-    
-    
-    //this.traerLocales().subscribe(locales => {
-    let email = '';
-    this.authService.traerUsuarioActivo().subscribe(usuarioAct => {
-      email = usuarioAct.email;
+      this.locales.doc(doc.id).update({ id: doc.id });
 
-      const movimientosTmp = {
-        tipo: TipoMovimiento.agregar,
-        usuario: email,
-        local: local.nombre
-      }
-      //this.movimientoService.persistirMovimiento(movimientosTmp);
-      this.movimientoService.persistirMovimiento(movimientosTmp, doc.id, "locales");
-    });
+
+      //this.traerLocales().subscribe(locales => {
+      let email = '';
+      this.authService.traerUsuarioActivo().subscribe(usuarioAct => {
+        email = usuarioAct.email;
+
+        const movimientosTmp = {
+          tipo: TipoMovimiento.agregar,
+          usuario: email,
+          local: local.nombre
+        }
+        //this.movimientoService.persistirMovimiento(movimientosTmp);
+        this.movimientoService.persistirMovimiento(movimientosTmp, doc.id, "locales");
+      });
 
     });
 
@@ -81,4 +81,26 @@ export class LocalService {
       })
     );
   }
+
+  // traerIdLocal(local: string): string {
+  //   //let locales:Observable<any[]>;
+  //   let idLocal: string;
+
+  //   //locales=this.traerLocales();
+
+  //   this.traerLocales().subscribe(locales => {
+  //     locales.forEach(localFE => {
+
+  //       if (localFE.nombre == local) {
+  //         idLocal = localFE.id;
+  //       }
+  //       //console.log("adentro:"+idLocal);
+  //       //return idLocal;
+  //     });
+  //     console.log("ultimo:"+idLocal);
+  //     return idLocal;
+  //   });
+    
+  //   //return idLocal;
+  // }
 }

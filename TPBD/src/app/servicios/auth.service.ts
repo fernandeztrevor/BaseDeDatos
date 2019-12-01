@@ -7,6 +7,7 @@ import { UsuarioService } from './usuario.service';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { UsuarioInt } from '../interfaces/usuario-int';
+//import { LocalService } from './local.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,17 +27,19 @@ export class AuthService {
     usuario: UsuarioInt,
     //email: string,
     password: string,
-    foto: Array<File>
+    foto: Array<File>,
+    idLocal: string
   ): Promise<string> {
     let salida = 'Usuario dado de alta';
 
     try {
       const res = await this.angularFireAuth.auth.createUserWithEmailAndPassword(
         usuario.email,
-        password,        
+        password,
       );
       usuario.id = res.user.uid;
-      this.userService.persistirUsuario(usuario, res.user.uid);
+      
+      this.userService.persistirUsuario(usuario, res.user.uid, idLocal);
       if (!(foto === undefined)) {
         this.userService.subirFoto(foto[0], res.user.uid);
       }

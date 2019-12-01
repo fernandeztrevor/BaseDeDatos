@@ -15,9 +15,9 @@ import { Observable } from 'rxjs';
 export class AltaUsuarioComponent implements OnInit {
 
   public usuarioForm: FormGroup;
-  public locales:Observable<any[]>;
+  public locales: Observable<any[]>;
 
-  constructor(private authService: AuthService, private router: Router, private localService:LocalService) {
+  constructor(private authService: AuthService, private router: Router, private localService: LocalService) {
     this.usuarioForm = new FormGroup({
       nombre: new FormControl(''),
       apellido: new FormControl(''),
@@ -26,8 +26,8 @@ export class AltaUsuarioComponent implements OnInit {
       foto: new FormControl(''),
       local: new FormControl('')
     });
-    this.locales=this.localService.traerLocales();
-   }
+    this.locales = this.localService.traerLocales();
+  }
 
   ngOnInit() {
     //this.locales = this.localService.traerLocales();
@@ -38,26 +38,51 @@ export class AltaUsuarioComponent implements OnInit {
   }
 
   guardarForm() {
+
     const usuarioTmp = {
       nombre: this.usuarioForm.value.nombre,
       apellido: this.usuarioForm.value.apellido,
       email: this.usuarioForm.value.email,
       foto: '',
       activo: true,
-      rol: Rol.Usuario
+      rol: Rol.Usuario,
+      local: this.usuarioForm.value.local
     };
 
-    this.authService.registracion(
-      usuarioTmp,
-      this.usuarioForm.value.password,
-      this.usuarioForm.value.foto.files
-    );
+    const formFoto= this.usuarioForm.value.foto.files;
+    const formPass= this.usuarioForm.value.password;
+    let idLocal: string;
 
-    //this.borrarForm();
-    this.cancelarForm();
+    this.localService.traerLocales().subscribe(locales => {
+      locales.forEach(localFE => {
+
+        if (localFE.nombre == usuarioTmp.local) {
+          idLocal = localFE.id;
+          //console.log(localFE.id, product.get('local'));
+        }
+      });
+      console.log(idLocal);
+      this.authService.registracion(
+           usuarioTmp,
+           formPass,
+           formFoto,
+           idLocal
+         );
+    });
+    //console.log(idLocal);
+      // this.authService.registracion(
+      //   usuarioTmp,
+      //   this.usuarioForm.value.password,
+      //   this.usuarioForm.value.foto.files,
+      //   idLocal
+      // );
+
+
+    this.borrarForm();
+    //this.cancelarForm();
   }
 
-  cancelarForm(){
+  cancelarForm() {
     this.borrarForm();
     this.router.navigate(['/login']);
 
@@ -75,24 +100,24 @@ export class AltaUsuarioComponent implements OnInit {
   }*/
 
   //public alta() {
-    /*this.activo = true;
-    this.rol = 'admin';
-    this.foto = 'foto';
+  /*this.activo = true;
+  this.rol = 'admin';
+  this.foto = 'foto';
 
-    const userTmp = new Usuario(
-      this.nombre, this.apellido, this.foto,
-      true, this.email, this.rol
-    );
-    this.userService.persistirUsuario(userTmp);
-    this.nombre = "";
-    this.apellido = "";
-    this.foto = "";
-    this.activo = true;
-    this.email = "";
-    this.rol = "";
-    this.password = "";*/
-    
-    //const task = this.afStorage.upload('imagenes/', this.archivo);
-    
+  const userTmp = new Usuario(
+    this.nombre, this.apellido, this.foto,
+    true, this.email, this.rol
+  );
+  this.userService.persistirUsuario(userTmp);
+  this.nombre = "";
+  this.apellido = "";
+  this.foto = "";
+  this.activo = true;
+  this.email = "";
+  this.rol = "";
+  this.password = "";*/
+
+  //const task = this.afStorage.upload('imagenes/', this.archivo);
+
   //}
 }

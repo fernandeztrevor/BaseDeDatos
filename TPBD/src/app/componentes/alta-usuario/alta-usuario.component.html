@@ -21,7 +21,7 @@
                 <mat-form-field>
                     <mat-label>local</mat-label>
                     <mat-select name="local" formControlName="local">
-                        <mat-option *ngFor="let local of locales | async" >
+                        <mat-option *ngFor="let local of locales | async" [value]="local.nombre" >
                             {{ local.nombre }}
                         </mat-option>
                     </mat-select>

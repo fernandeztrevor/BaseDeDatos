@@ -10,7 +10,7 @@ import { ProductoInt } from 'src/app/interfaces/producto-Int';
 import { MovimientoService } from 'src/app/servicios/movimiento.service';
 import { TipoMovimiento } from '../../enums/tipo-movimiento.enum';
 import { LocalService } from 'src/app/servicios/local.service';
-import { LOADIPHLPAPI } from 'dns';
+//import { LOADIPHLPAPI } from 'dns';
 
 @Component({
   selector: 'app-tabla-listado-productos',
