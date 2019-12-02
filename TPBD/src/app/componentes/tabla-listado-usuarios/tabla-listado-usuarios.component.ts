@@ -16,7 +16,8 @@ export class TablaListadoUsuariosComponent implements OnInit {
   columnasTabla: string[];
   datosTabla: MatTableDataSource<any>;
 
-  constructor(private authService: AuthService, private usuarioService: UsuarioService) { }
+  constructor(//private authService: AuthService, 
+    private usuarioService: UsuarioService) { }
 
   ngOnInit() {
     this.lista$ = this.usuarioService.traerUsuarios();

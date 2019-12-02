@@ -9,6 +9,7 @@ import { TipoMovimiento } from '../enums/tipo-movimiento.enum';
 import { LocalService } from './local.service';
 import { MovimientoInt } from '../interfaces/movimiento-int';
 import { AuthService } from './auth.service';
+import { Producto } from '../clases/producto';
 
 @Injectable({
   providedIn: 'root'
@@ -57,16 +58,31 @@ export class ProductoService {
     this.productos.doc(uid).update({ activo: true });
   }
 
-  traerProductos(): Observable<any[]> {
-    return this.productos.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(action => {
-          const datos = action.payload.doc.data() as ProductoInt;          
-          const id = action.payload.doc.id;
-          return { id, ...datos };
-        });
-      })
-    );
+   traerProductos(): Observable<any[]> {
+     return this.productos.snapshotChanges().pipe(
+       map(actions => {
+         return actions.map(action => {
+           const datos = action.payload.doc.data() as ProductoInt;          
+           const id = action.payload.doc.id;
+           return { id, ...datos };
+         });
+       })
+     );
+   }
+
+   traerMovProductos(): Observable<any[]> {
+     
+let bla : Observable<any[]>;
+     this.traerProductos().subscribe(products => {
+       
+      products.forEach(prodFE => {
+        this.productos.doc(prodFE.id).collection("movimientos").doc().
+        //this.movimientos.add( this.angularFirestore.collection<MovimientoInt>(`productos/${prodFE.id}/movimientos`));
+      });
+      //console.log(this.movimientos);
+      });    
+      
+      return bla;
   }
 
   subirFoto(foto: File, uid: string) {

@@ -36,6 +36,9 @@ import { ProductoService } from './servicios/producto.service';
 import { LocalService } from './servicios/local.service';
 import { BarraTituloComponent } from './componentes/barra-titulo/barra-titulo.component';
 import { MovimientoService } from './servicios/movimiento.service';
+import { ListadoMovUsuariosComponent } from './componentes/listado-mov-usuarios/listado-mov-usuarios.component';
+import { ListadoMovLocalesComponent } from './componentes/listado-mov-locales/listado-mov-locales.component';
+import { ListadoMovProductosComponent } from './componentes/listado-mov-productos/listado-mov-productos.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,10 @@ import { MovimientoService } from './servicios/movimiento.service';
     TablaListadoMovimientosComponent,
     TablaListadoProductosComponent,
     TablaListadoUsuariosComponent,
-    BarraTituloComponent
+    BarraTituloComponent,
+    ListadoMovUsuariosComponent,
+    ListadoMovLocalesComponent,
+    ListadoMovProductosComponent
   ],
   imports: [
     BrowserModule,

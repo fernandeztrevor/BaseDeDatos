@@ -10,7 +10,7 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Usuario</mat-panel-title>
         </mat-expansion-panel-header>
-        
+
         <button mat-button color="accent" (click)="asignarTipoBoton('listarusuarios')">Lista</button>
       </mat-expansion-panel>
       <mat-expansion-panel>
@@ -18,7 +18,7 @@
           <mat-panel-title>Producto</mat-panel-title>
         </mat-expansion-panel-header>
         <button *ngIf="rol == 'Administrador'" mat-button color="accent"
-                    (click)="asignarTipoBoton('altaproducto')">Alta</button>
+          (click)="asignarTipoBoton('altaproducto')">Alta</button>
         <!-- <button mat-button color="accent" (click)="asignarTipoBoton('altaproducto')">Alta</button> -->
         <button mat-button color="accent" (click)="asignarTipoBoton('listarproductos')">Lista</button>
       </mat-expansion-panel>
@@ -39,7 +39,21 @@
         <mat-expansion-panel-header>
           <mat-panel-title>Movimientos</mat-panel-title>
         </mat-expansion-panel-header>
-        <button mat-button color="accent" (click)="asignarTipoBoton('listarmovimientos')"></button>
+        <button mat-button color="accent" *ngIf="rol != 'Administrador'" (click)="asignarTipoBoton('listarmovusuario')">
+          Del Usuario
+        </button>
+        <button mat-button color="accent" *ngIf="rol == 'Administrador'" (click)="asignarTipoBoton('listarmovusuario')">
+          De Usuarios
+        </button>
+        <button mat-button color="accent" *ngIf="rol != 'Administrador'" (click)="asignarTipoBoton('listarmovlocales')">
+          Del Local
+        </button>
+        <button mat-button color="accent" *ngIf="rol == 'Administrador'" (click)="asignarTipoBoton('listarmovlocales')">
+          De Locales
+        </button>
+        <button mat-button color="accent" (click)="asignarTipoBoton('listarmovproductos')">
+          De productos
+        </button>
       </mat-expansion-panel>
     </mat-accordion>
 
@@ -50,13 +64,22 @@
 
   <mat-sidenav-content class="sidenav-contenedor">
     <ng-container [ngSwitch]="tipoBoton">
+
       <app-tabla-listado-usuarios *ngSwitchCase="'listarusuarios'" [rol]="rol"></app-tabla-listado-usuarios>
+
       <app-tabla-listado-productos *ngSwitchCase="'listarproductos'" [rol]="rol"></app-tabla-listado-productos>
       <app-alta-producto *ngSwitchCase="'altaproducto'"></app-alta-producto>
       <app-tabla-listado-locales *ngSwitchCase="'listarlocales'" [rol]="rol"></app-tabla-listado-locales>
       <app-alta-local *ngSwitchCase="'altalocal'"></app-alta-local>
+
+
       <app-tabla-listado-movimientos *ngSwitchCase="'listarmovimientos'" [rol]="rol">
+      
+
       </app-tabla-listado-movimientos>
+      <app-listado-mov-locales *ngSwitchCase="'listarmovlocales'"></app-listado-mov-locales>
+      <app-listado-mov-usuarios *ngSwitchCase="'listarmovusuario'"></app-listado-mov-usuarios>
+      <app-listado-mov-productos *ngSwitchCase="'listarmovproductos'"></app-listado-mov-productos>
       <p *ngSwitchDefault>Nada Seleccionado</p>
     </ng-container>
   </mat-sidenav-content>
