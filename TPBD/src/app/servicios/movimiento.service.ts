@@ -12,7 +12,7 @@ export class MovimientoService {
   movimientos: AngularFirestoreCollection;
 
   constructor(private angularFirestore: AngularFirestore) {
-    //this.movimientos = this.angularFirestore.collection<MovimientoInt>('movimientos');
+    this.movimientos = this.angularFirestore.collection<MovimientoInt>('movimientos');
   }
 
   persistirMovimiento(movimiento: MovimientoInt, id: string, tipo: string) {

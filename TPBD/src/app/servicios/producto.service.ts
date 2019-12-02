@@ -21,6 +21,7 @@ export class ProductoService {
   constructor(private angularFirestore: AngularFirestore, private angularFireStorage: AngularFireStorage,
     private movimientoService: MovimientoService, private localService: LocalService, private authService: AuthService) {
     this.productos = this.angularFirestore.collection<ProductoInt>('productos');
+    this.movimientos = this.angularFirestore.collection<ProductoInt>('movimientos');
   }
 
   persistirProducto(producto: ProductoInt, foto?: Array<File>) {
@@ -58,48 +59,45 @@ export class ProductoService {
     this.productos.doc(uid).update({ activo: true });
   }
 
-   traerProductos(): Observable<any[]> {
-     return this.productos.snapshotChanges().pipe(
-       map(actions => {
-         return actions.map(action => {
-           const datos = action.payload.doc.data() as ProductoInt;          
-           const id = action.payload.doc.id;
-           return { id, ...datos };
-         });
-       })
-     );
-   }
+  traerProductos(): Observable<any[]> {
+    return this.productos.snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(action => {
+          const datos = action.payload.doc.data() as ProductoInt;
+          const id = action.payload.doc.id;
+          return { id, ...datos };
+        });
+      })
+    );
+  }
 
-   traerMovProductos(): Observable<any[]> {
-     
-let bla : Observable<any[]>;
-     this.traerProductos().subscribe(products => {
-       
-      products.forEach(prodFE => {
-        this.productos.doc(prodFE.id).collection("movimientos").doc().
-        //this.movimientos.add( this.angularFirestore.collection<MovimientoInt>(`productos/${prodFE.id}/movimientos`));
-      });
-      //console.log(this.movimientos);
-      });    
-      
-      return bla;
+  traerMovProductos(): Observable<any[]> {
+    return this.movimientos.snapshotChanges().pipe(
+          map(actions => {
+            return actions.map(action => {
+              const datos = action.payload.doc.data() as MovimientoInt;
+              const id = action.payload.doc.id;
+              return { id, ...datos };
+            });
+          })
+        );
   }
 
   subirFoto(foto: File, uid: string) {
     const pathFoto = `imagenesProductos/${uid}`;
     const tarea = this.angularFireStorage.upload(pathFoto, foto);
-    
+
     tarea.then(() => {
       this.angularFireStorage
         .ref(pathFoto)
         .getDownloadURL()
-        // .subscribe(url => {
-        //   this.productos.doc(uid).update({
-        //   foto: url
-        //   });
-          
-        // });
+      // .subscribe(url => {
+      //   this.productos.doc(uid).update({
+      //   foto: url
+      //   });
+
+      // });
     });
-    
+
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProductoService } from 'src/app/servicios/producto.service';
 import { MatTableDataSource } from '@angular/material';
+import { MovimientoService } from 'src/app/servicios/movimiento.service';
 
 @Component({
   selector: 'app-listado-mov-productos',
@@ -14,7 +15,7 @@ export class ListadoMovProductosComponent implements OnInit {
   columnasTabla: string[];
   datosTabla: MatTableDataSource<any>;
 
-  constructor(private productoService: ProductoService) { }
+  constructor(private productoService: ProductoService, private movimientoService: MovimientoService) { }
 
   ngOnInit() {
     this.columnasTabla = [
@@ -29,6 +30,15 @@ export class ListadoMovProductosComponent implements OnInit {
     // this.lista$.subscribe(datos => {
     //   this.datosTabla = new MatTableDataSource(datos);
     // });
+
+    this.productoService.traerMovProductos().subscribe(movimientos => {
+      movimientos.forEach(movFE => {
+
+        console.log(movFE);
+      });
+      });
+
+    
   }
 
 }
