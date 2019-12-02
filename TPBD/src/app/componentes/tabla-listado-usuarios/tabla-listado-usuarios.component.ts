@@ -28,7 +28,9 @@ export class TablaListadoUsuariosComponent implements OnInit {
         'email',
         'activo',
         'rol',
+        'local',
         'id'
+        
       ]
     } else {
       this.columnasTabla = [
@@ -36,7 +38,8 @@ export class TablaListadoUsuariosComponent implements OnInit {
         'apellido',
         'email',
         'activo',
-        'rol'
+        'rol',
+        'local'
       ];
     }
     this.lista$.subscribe(datos => {

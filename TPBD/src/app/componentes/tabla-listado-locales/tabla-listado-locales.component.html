@@ -17,11 +17,19 @@
         </ng-container>
         <ng-container *ngIf="rol == 'Administrador'" matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-            <td mat-cell *matCellDef="let local">
-                <button mat-flat-button mat-button color="warn"
+            <td mat-cell *matCellDef="let local" >
+                <button mat-flat-button mat-button *ngIf="local.activo" color="warn"
                     (click)="deshabilitarLocal(local.id)">Deshabilitar</button>
+                    <button mat-flat-button mat-button *ngIf="!local.activo" color="accent"
+                    (click)="habilitarLocal(local.id)">Habilitar</button>
             </td>
         </ng-container>
+
+        
+
+
+
+
         <tr mat-header-row *matHeaderRowDef="columnasTabla"></tr>
         <tr mat-row *matRowDef="let columnas; columns: columnasTabla"></tr>
     </table>

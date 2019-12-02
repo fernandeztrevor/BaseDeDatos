@@ -10,6 +10,7 @@ import { TipoMovimiento } from '../enums/tipo-movimiento.enum';
 import { MovimientoService } from './movimiento.service';
 import { LocalService } from './local.service';
 import { AuthService } from './auth.service';
+import { MovimientoInt } from '../interfaces/movimiento-int';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ import { AuthService } from './auth.service';
 export class UsuarioService {
   //usuario$: Observable<any>;
   usuarios: AngularFirestoreCollection;
+  movimientos: AngularFirestoreCollection;
 
   constructor(
 
@@ -28,6 +30,7 @@ export class UsuarioService {
     //private angularFireAuth: AngularFireAuth
   ) {
     this.usuarios = this.angularFireStore.collection<UsuarioInt>('usuarios');
+    this.movimientos = this.angularFireStore.collection<MovimientoInt>('usuarios/Hus5XGSjoXJCd7IuMJtc/movimientos');
     //this.usuario$ = this.buscarUsuarioFirebase();
   }
 
@@ -121,4 +124,35 @@ export class UsuarioService {
       });
     }));
   }
+
+  traerMovUsuarios(): Observable<any[]> {
+    return this.movimientos.snapshotChanges().pipe(
+          map(actions => {
+            return actions.map(action => {
+              const datos = action.payload.doc.data() as MovimientoInt;
+              const id = action.payload.doc.id;
+              return { id, ...datos };
+            });
+          })
+        );
+  }
+
+  traerTodosLosMovsUser(){
+   // this.movimientos = this.angularFirestore.collection<ProductoInt>('productos/${uid}/movimientos');
+   
+   this.traerUsuarios().subscribe(prods=>{
+       prods.forEach(unProd => {
+         this.movimientos = this.angularFireStore.collection<MovimientoInt>(`usuarios/${unProd.id}/movimientos`);
+        
+         this.traerMovUsuarios().subscribe(movimient => {
+          
+           movimient.forEach(movFE => {
+             movFE;
+            console.log(movFE);
+          });
+          });
+      });
+    })
+
+}
 }

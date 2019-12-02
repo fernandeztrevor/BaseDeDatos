@@ -31,12 +31,15 @@ export class ListadoMovProductosComponent implements OnInit {
     //   this.datosTabla = new MatTableDataSource(datos);
     // });
 
-    this.productoService.traerMovProductos().subscribe(movimientos => {
-      movimientos.forEach(movFE => {
-
-        console.log(movFE);
-      });
-      });
+    this.productoService.traerTodosLosMovsProd();
+    // this.productoService.traerMovProductos().subscribe(movimientos => {
+    //   console.log(movimientos);
+    //   movimientos.forEach(movFE => {
+    //     console.log("culo");
+    //     console.log(movFE);
+    //   });
+    //   });
+    
 
     
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ProductoInt } from '../interfaces/producto-Int';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { MovimientoService } from './movimiento.service';
@@ -21,7 +21,7 @@ export class ProductoService {
   constructor(private angularFirestore: AngularFirestore, private angularFireStorage: AngularFireStorage,
     private movimientoService: MovimientoService, private localService: LocalService, private authService: AuthService) {
     this.productos = this.angularFirestore.collection<ProductoInt>('productos');
-    this.movimientos = this.angularFirestore.collection<ProductoInt>('movimientos');
+    this.movimientos = this.angularFirestore.collection<MovimientoInt>('productos/Hus5XGSjoXJCd7IuMJtc/movimientos');
   }
 
   persistirProducto(producto: ProductoInt, foto?: Array<File>) {
@@ -73,14 +73,33 @@ export class ProductoService {
 
   traerMovProductos(): Observable<any[]> {
     return this.movimientos.snapshotChanges().pipe(
-          map(actions => {
-            return actions.map(action => {
-              const datos = action.payload.doc.data() as MovimientoInt;
-              const id = action.payload.doc.id;
-              return { id, ...datos };
-            });
-          })
-        );
+      map(actions => {
+        return actions.map(action => {
+          const datos = action.payload.doc.data() as MovimientoInt;
+          const id = action.payload.doc.id;
+          return { id, ...datos };
+        });
+      })
+    );
+  }
+
+  traerTodosLosMovsProd() {
+    // this.movimientos = this.angularFirestore.collection<ProductoInt>('productos/${uid}/movimientos');
+
+    this.traerProductos().subscribe(prods => {
+      prods.forEach(unProd => {
+        this.movimientos = this.angularFirestore.collection<MovimientoInt>(`productos/${unProd.id}/movimientos`);
+
+        this.traerMovProductos().subscribe(movimient => {
+
+          movimient.forEach(movFE => {
+            movFE;
+            console.log(movFE);
+          });
+        });
+      });
+    })
+
   }
 
   subirFoto(foto: File, uid: string) {

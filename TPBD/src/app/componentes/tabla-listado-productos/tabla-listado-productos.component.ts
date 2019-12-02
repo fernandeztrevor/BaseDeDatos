@@ -96,7 +96,7 @@ export class TablaListadoProductosComponent implements OnInit {
             usuario: usuario.email,
             producto: product.get('nombre'),
             local: product.get('local'),
-            cantidad: 0
+            cantidad: cantidad
           }
 
           this.localService.traerLocales().subscribe(locales => {

@@ -9,6 +9,7 @@ import { MovimientoService } from './movimiento.service';
 import { UsuarioInt } from '../interfaces/usuario-int';
 import { UsuarioService } from './usuario.service';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { MovimientoInt } from '../interfaces/movimiento-int';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,12 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class LocalService {
   locales: AngularFirestoreCollection;
   usuario: UsuarioInt;
+  movimientos: AngularFirestoreCollection;
 
   constructor(private angularFirestore: AngularFirestore, private authService: AuthService,
     private movimientoService: MovimientoService, private usuarioService: UsuarioService, angularFireAuth: AngularFireAuth) {
     this.locales = this.angularFirestore.collection<LocalInt>('locales');
+    this.movimientos = this.angularFirestore.collection<MovimientoInt>('locales/Hus5XGSjoXJCd7IuMJtc/movimientos');
   }
 
   persistirLocal(local: LocalInt) {
@@ -35,6 +38,7 @@ export class LocalService {
         const movimientosTmp = {
           tipo: TipoMovimiento.agregar,
           usuario: email,
+          producto: "-",
           local: local.nombre
         }
         //this.movimientoService.persistirMovimiento(movimientosTmp);
@@ -82,6 +86,56 @@ export class LocalService {
     );
   }
 
+  traerMovLocales(id:string): Observable<any[]> {
+
+    this.movimientos = this.angularFirestore.collection<MovimientoInt>(`locales/${id}/movimientos`);
+    return this.movimientos.snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(action => {
+          const datos = action.payload.doc.data() as MovimientoInt;
+          const id = action.payload.doc.id;
+          return { id, ...datos };
+        });
+      })
+    );
+  }
+  
+
+  traerTodosLosMovsLoc() {
+    // this.movimientos = this.angularFirestore.collection<ProductoInt>('productos/${uid}/movimientos');
+      
+      
+    
+    //  return this.locales.snapshotChanges().pipe(
+    //    map(actions => {
+    //      return actions.map(action => {
+    //        const datos = action.payload.doc.data() as LocalInt;
+    //        const id = action.payload.doc.id;
+    //        this.movimientos = this.angularFirestore.collection<MovimientoInt>(`locales/${id}/movimientos`);
+
+    //        return this.traerMovLocales();
+    //      });
+    //    })
+    //  );
+    
+    
+    
+    //    this.traerLocales().subscribe(locs => {
+    //    locs.forEach(unLoc => {
+    //      this.movimientos = this.angularFirestore.collection<MovimientoInt>(`locales/${unLoc.id}/movimientos`);
+    //      this.traerMovLocales().subscribe(movimient => {
+    //        movimient.forEach(movFE => {
+    //          movFE;
+             
+    //          console.log(movFE);
+    //        });
+    //      });
+    //    });
+    //  });
+
+
+  }
+
   // traerIdLocal(local: string): string {
   //   //let locales:Observable<any[]>;
   //   let idLocal: string;
@@ -100,7 +154,7 @@ export class LocalService {
   //     console.log("ultimo:"+idLocal);
   //     return idLocal;
   //   });
-    
+
   //   //return idLocal;
   // }
 }
