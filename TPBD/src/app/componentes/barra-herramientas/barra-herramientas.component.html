@@ -64,19 +64,12 @@
 
   <mat-sidenav-content class="sidenav-contenedor">
     <ng-container [ngSwitch]="tipoBoton">
-
       <app-tabla-listado-usuarios *ngSwitchCase="'listarusuarios'" [rol]="rol"></app-tabla-listado-usuarios>
-
       <app-tabla-listado-productos *ngSwitchCase="'listarproductos'" [rol]="rol"></app-tabla-listado-productos>
       <app-alta-producto *ngSwitchCase="'altaproducto'"></app-alta-producto>
       <app-tabla-listado-locales *ngSwitchCase="'listarlocales'" [rol]="rol"></app-tabla-listado-locales>
       <app-alta-local *ngSwitchCase="'altalocal'"></app-alta-local>
-
-
-      <app-tabla-listado-movimientos *ngSwitchCase="'listarmovimientos'" [rol]="rol">
-      
-
-      </app-tabla-listado-movimientos>
+      <app-tabla-listado-movimientos *ngSwitchCase="'listarmovimientos'" [rol]="rol"></app-tabla-listado-movimientos>
       <app-listado-mov-locales *ngSwitchCase="'listarmovlocales'"></app-listado-mov-locales>
       <app-listado-mov-usuarios *ngSwitchCase="'listarmovusuario'"></app-listado-mov-usuarios>
       <app-listado-mov-productos *ngSwitchCase="'listarmovproductos'"></app-listado-mov-productos>

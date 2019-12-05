@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { LocalService } from 'src/app/servicios/local.service';
 import { Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material';
@@ -10,16 +10,19 @@ import { MovimientoService } from 'src/app/servicios/movimiento.service';
   styleUrls: ['./listado-mov-locales.component.css']
 })
 export class ListadoMovLocalesComponent implements OnInit {
-  public lista$: Observable<any[]>;
+  
   public listaMov$: Observable<any[]>;
+  public lista$: Observable<any[]>;
   columnasTabla: string[];
   datosTabla: MatTableDataSource<any>;
 
   constructor(private localService: LocalService, private movimientoService: MovimientoService) { }
 
-  ngOnInit() {
+  @Input() idSeleccionado:string;
+  
 
-    this.lista$ = this.localService.traerMovLocales('18R76fhkGQ4ybmXVGXp1');
+  ngOnInit() {
+  console.log("chla");
  
     this.columnasTabla = [
       'producto',
@@ -28,11 +31,17 @@ export class ListadoMovLocalesComponent implements OnInit {
       'tipo',
       'cantidad'
     ];
-    console.log(this.lista$);
+    
     this.lista$.subscribe(datos => {
       this.datosTabla = new MatTableDataSource(datos);
     });
 
+  }
+
+  cambiarDatos(){
+    this.lista$.subscribe(datos => {
+      this.datosTabla = new MatTableDataSource(datos);
+    });
   }
 
 }

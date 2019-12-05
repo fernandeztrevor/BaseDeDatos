@@ -7,6 +7,7 @@ import { UsuarioService } from './usuario.service';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { UsuarioInt } from '../interfaces/usuario-int';
+import { BarraHerramientasComponent } from '../componentes/barra-herramientas/barra-herramientas.component';
 //import { LocalService } from './local.service';
 
 @Injectable({
@@ -108,5 +109,7 @@ export class AuthService {
   traerUsuarioActivo(): Observable<UsuarioInt> {
     return this.usuario$;
   }
+
+  
 
 }

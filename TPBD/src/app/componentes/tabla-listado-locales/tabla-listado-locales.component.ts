@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Observable, observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material';
 import { LocalService } from 'src/app/servicios/local.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/servicios/auth.service';
 
 @Component({
   selector: 'app-tabla-listado-locales',
@@ -19,19 +21,24 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 export class TablaListadoLocalesComponent implements OnInit {
 
   @Input() rol:string;
+  @Output() listaMov: EventEmitter<Observable<any[]>>;
    lista$: Observable<any[]>;
    columnasTabla: string[];
    datosTabla: MatTableDataSource<any>;
    localExpandido: ['movimientos/${id}/tipo', 'description', 'observaciones'] | null;
+   idSeleccionado: string;
+   listaMovimientos$: Observable<any[]>;
 
-  constructor(private localService: LocalService) { }
+  constructor(private localService: LocalService, private router:Router, private authService: AuthService) {
+    //this.listaMovimientos$=new Observable<any[]>();
+   }
 
   ngOnInit() {
     this.lista$ = this.localService.traerLocales();
     if(this.rol === 'Administrador'){
-      this.columnasTabla = [ 'nombre', 'direccion', 'activo', 'id'];
+      this.columnasTabla = [ 'nombre', 'direccion', 'activo', 'id', 'movimientos'];
     }else{
-      this.columnasTabla = [ 'nombre', 'direccion', 'activo'];
+      this.columnasTabla = [ 'nombre', 'direccion', 'activo', 'movimientos'];
     }
 
     this.lista$.subscribe(datos => {
@@ -45,5 +52,14 @@ export class TablaListadoLocalesComponent implements OnInit {
 
 habilitarLocal(id: string){
   this.localService.habilitarLocal(id);
+}
+
+mostrarMovimientos(id: string){
+
+  //this.idSeleccionado=id;
+  this.listaMovimientos$=this.localService.traerMovLocales(id);
+  //window.document.getElementById('listadomov').remove();
+ 
+ 
 }
 }

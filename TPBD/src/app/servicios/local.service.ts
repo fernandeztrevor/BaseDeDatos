@@ -18,6 +18,7 @@ export class LocalService {
   locales: AngularFirestoreCollection;
   usuario: UsuarioInt;
   movimientos: AngularFirestoreCollection;
+  idSeleccionado: string;
 
   constructor(private angularFirestore: AngularFirestore, private authService: AuthService,
     private movimientoService: MovimientoService, private usuarioService: UsuarioService, angularFireAuth: AngularFireAuth) {
@@ -157,4 +158,6 @@ export class LocalService {
 
   //   //return idLocal;
   // }
+
+  
 }
