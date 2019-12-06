@@ -30,7 +30,7 @@ export class TablaListadoLocalesComponent implements OnInit {
    listaMovimientos$: Observable<any[]>;
 
   constructor(private localService: LocalService, private router:Router, private authService: AuthService) {
-    //this.listaMovimientos$=new Observable<any[]>();
+    this.listaMov = new EventEmitter<Observable<any[]>>();
    }
 
   ngOnInit() {
@@ -56,10 +56,8 @@ habilitarLocal(id: string){
 
 mostrarMovimientos(id: string){
 
-  //this.idSeleccionado=id;
   this.listaMovimientos$=this.localService.traerMovLocales(id);
-  //window.document.getElementById('listadomov').remove();
- 
- 
-}
+  this.listaMov.emit(this.listaMovimientos$);
+
+  }
 }

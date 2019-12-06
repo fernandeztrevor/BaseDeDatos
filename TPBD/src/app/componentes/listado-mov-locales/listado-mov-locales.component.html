@@ -1,4 +1,4 @@
-<p>listado-mov-locales works!</p>
+<!-- <p>listado-mov-locales works!</p>
 <mat-form-field>
         <mat-label>local</mat-label>
         <mat-select>
@@ -40,7 +40,25 @@
         <tr mat-row *matRowDef="let producto; columns: columnasTabla" class="producto-fila"
             [class.fila-expandida]="productoExpandido === producto"
             (click)="productoExpandido = productoExpandido === producto ? null : producto"></tr>
-        <!-- <tr mat-row *matRowDef="let columnas; columns: ['detalle']" class="detalle-fila"></tr> -->
+            <tr mat-row *matRowDef="let columnas; columns: ['detalle']" class="detalle-fila"></tr>
     </table>
 
-</div>
+</div> -->
+
+<h1>Movimientos</h1>
+<table>
+  <tr>
+    <th>Producto</th>
+    <th>Usuario</th>
+    <th>Local</th>
+    <th>Tipo</th>
+    <th>Cantidad</th>
+  </tr>
+  <tr *ngFor="let movimiento of lista$ | async">
+    <td>{{ movimiento.producto }}</td>
+    <td>{{ movimiento.usuario }}</td>
+    <td>{{ movimiento.local }}</td>
+    <td>{{ movimiento.tipo }}</td>
+    <td>{{ movimiento.cantidad }}</td>
+  </tr>
+</table>

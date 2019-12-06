@@ -12,14 +12,14 @@ import { MovimientoService } from 'src/app/servicios/movimiento.service';
 export class ListadoMovLocalesComponent implements OnInit {
   
   public listaMov$: Observable<any[]>;
-  public lista$: Observable<any[]>;
+  //public lista$: Observable<any[]>;
   columnasTabla: string[];
   datosTabla: MatTableDataSource<any>;
+  
+  @Input() idSeleccionado:string;
+  @Input() lista$: Observable<any[]>;
 
   constructor(private localService: LocalService, private movimientoService: MovimientoService) { }
-
-  @Input() idSeleccionado:string;
-  
 
   ngOnInit() {
   console.log("chla");

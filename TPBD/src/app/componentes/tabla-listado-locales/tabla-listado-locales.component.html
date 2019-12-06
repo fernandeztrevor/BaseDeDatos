@@ -32,17 +32,8 @@
             </td>
         </ng-container>
 
-
-
-
-
-
         <tr mat-header-row *matHeaderRowDef="columnasTabla"></tr>
         <tr mat-row *matRowDef="let columnas; columns: columnasTabla"></tr>
     </table>
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-
-
 </div>
-
-<app-listado-mov-locales *ngIf="listaMovimientos$!=null" [lista$]="listaMovimientos$"></app-listado-mov-locales>
