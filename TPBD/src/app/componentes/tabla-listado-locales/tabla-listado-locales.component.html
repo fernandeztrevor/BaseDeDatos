@@ -24,7 +24,7 @@
                     (click)="habilitarLocal(local.id)">Habilitar</button>
             </td>
         </ng-container>
-        <ng-container matColumnDef="movimientos">
+        <ng-container matColumnDef="movimientos" *ngIf="rol == 'Administrador'">
             <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
             <td mat-cell *matCellDef="let local">
                 <button mat-flat-button mat-button color="warn" (click)="mostrarMovimientos(local.id)">Ver

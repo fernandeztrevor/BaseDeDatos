@@ -20,44 +20,52 @@ import { AuthService } from 'src/app/servicios/auth.service';
 })
 export class TablaListadoLocalesComponent implements OnInit {
 
-  @Input() rol:string;
+  @Input() rol: string;
   @Output() listaMov: EventEmitter<Observable<any[]>>;
-   lista$: Observable<any[]>;
-   columnasTabla: string[];
-   datosTabla: MatTableDataSource<any>;
-   localExpandido: ['movimientos/${id}/tipo', 'description', 'observaciones'] | null;
-   idSeleccionado: string;
-   listaMovimientos$: Observable<any[]>;
+  lista$: Observable<any[]>;
+  columnasTabla: string[];
+  datosTabla: MatTableDataSource<any>;
+  localExpandido: ['movimientos/${id}/tipo', 'description', 'observaciones'] | null;
+  idSeleccionado: string;
+  listaMovimientos$: Observable<any[]>;
+  localUsuario: string;
 
-  constructor(private localService: LocalService, private router:Router, private authService: AuthService) {
+  constructor(private localService: LocalService, private router: Router, private authService: AuthService) {
     this.listaMov = new EventEmitter<Observable<any[]>>();
-   }
+  }
 
   ngOnInit() {
     this.lista$ = this.localService.traerLocales();
-    if(this.rol === 'Administrador'){
-      this.columnasTabla = [ 'nombre', 'direccion', 'activo', 'id', 'movimientos'];
-    }else{
-      this.columnasTabla = [ 'nombre', 'direccion', 'activo', 'movimientos'];
+    if (this.rol === 'Administrador') {
+      this.columnasTabla = ['nombre', 'direccion', 'activo', 'id', 'movimientos'];
+    } else {
+      this.columnasTabla = ['nombre', 'direccion', 'activo', 'movimientos'];
     }
 
     this.lista$.subscribe(datos => {
       this.datosTabla = new MatTableDataSource(datos);
     });
+
+    this.authService.traerUsuarioActivo().subscribe(usuarioAct => {
+      this.localUsuario =  usuarioAct.local;
+      });
   }
 
-  deshabilitarLocal(id: string){
+  deshabilitarLocal(id: string) {
     this.localService.deshabilitarLocal(id);
-}
+  }
 
-habilitarLocal(id: string){
-  this.localService.habilitarLocal(id);
-}
+  habilitarLocal(id: string) {
+    this.localService.habilitarLocal(id);
+  }
 
-mostrarMovimientos(id: string){
+  mostrarMovimientos(id: string) {
 
-  this.listaMovimientos$=this.localService.traerMovLocales(id);
-  this.listaMov.emit(this.listaMovimientos$);
+    this.listaMovimientos$ = this.localService.traerMovLocales(id);
+    this.listaMov.emit(this.listaMovimientos$);
+    console.log(this.localUsuario);
 
   }
+
+
 }
