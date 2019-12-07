@@ -71,36 +71,36 @@ export class ProductoService {
     );
   }
 
-  traerMovProductos(): Observable<any[]> {
-    return this.movimientos.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(action => {
-          const datos = action.payload.doc.data() as MovimientoInt;
-          const id = action.payload.doc.id;
-          return { id, ...datos };
-        });
-      })
-    );
-  }
+  // traerMovProductos(): Observable<any[]> {
+  //   return this.movimientos.snapshotChanges().pipe(
+  //     map(actions => {
+  //       return actions.map(action => {
+  //         const datos = action.payload.doc.data() as MovimientoInt;
+  //         const id = action.payload.doc.id;
+  //         return { id, ...datos };
+  //       });
+  //     })
+  //   );
+  // }
 
-  traerTodosLosMovsProd() {
-    // this.movimientos = this.angularFirestore.collection<ProductoInt>('productos/${uid}/movimientos');
+  // traerTodosLosMovsProd() {
+  //   // this.movimientos = this.angularFirestore.collection<ProductoInt>('productos/${uid}/movimientos');
 
-    this.traerProductos().subscribe(prods => {
-      prods.forEach(unProd => {
-        this.movimientos = this.angularFirestore.collection<MovimientoInt>(`productos/${unProd.id}/movimientos`);
+  //   this.traerProductos().subscribe(prods => {
+  //     prods.forEach(unProd => {
+  //       this.movimientos = this.angularFirestore.collection<MovimientoInt>(`productos/${unProd.id}/movimientos`);
 
-        this.traerMovProductos().subscribe(movimient => {
+  //       this.traerMovProductos().subscribe(movimient => {
 
-          movimient.forEach(movFE => {
-            movFE;
-            console.log(movFE);
-          });
-        });
-      });
-    })
+  //         movimient.forEach(movFE => {
+  //           movFE;
+  //           console.log(movFE);
+  //         });
+  //       });
+  //     });
+  //   })
 
-  }
+  // }
 
   subirFoto(foto: File, uid: string) {
     const pathFoto = `imagenesProductos/${uid}`;
@@ -118,5 +118,19 @@ export class ProductoService {
       // });
     });
 
+  }
+
+  traerMovProductos(id:string): Observable<any[]> {
+
+    this.movimientos = this.angularFirestore.collection<MovimientoInt>(`productos/${id}/movimientos`);
+    return this.movimientos.snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(action => {
+          const datos = action.payload.doc.data() as MovimientoInt;
+          const id = action.payload.doc.id;
+          return { id, ...datos };
+        });
+      })
+    );
   }
 }

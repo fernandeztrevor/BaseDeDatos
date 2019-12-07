@@ -1,0 +1,4 @@
+
+
+<app-tabla-listado-productos [rol]="rol" (listaMov)="cambioProducto($event)"></app-tabla-listado-productos>
+<app-listado-mov-productos *ngIf="listaMovProd != null" [lista$]="listaMovProd"></app-listado-mov-productos>

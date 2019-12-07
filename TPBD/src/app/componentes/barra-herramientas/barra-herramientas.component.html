@@ -65,7 +65,8 @@
   <mat-sidenav-content class="sidenav-contenedor">
     <ng-container [ngSwitch]="tipoBoton">
       <app-tabla-listado-usuarios *ngSwitchCase="'listarusuarios'" [rol]="rol"></app-tabla-listado-usuarios>
-      <app-tabla-listado-productos *ngSwitchCase="'listarproductos'" [rol]="rol"></app-tabla-listado-productos>
+      <!-- <app-tabla-listado-productos *ngSwitchCase="'listarproductos'" [rol]="rol"></app-tabla-listado-productos> -->
+      <app-tabla-listado-mov-prod *ngSwitchCase="'listarproductos'" [rol]="rol"></app-tabla-listado-mov-prod>
       <app-alta-producto *ngSwitchCase="'altaproducto'"></app-alta-producto>
       <!-- <app-tabla-listado-locales *ngSwitchCase="'listarlocales'" [rol]="rol"></app-tabla-listado-locales> -->
       <app-tabla-listado-mov-loc *ngSwitchCase="'listarlocales'" [rol]="rol"></app-tabla-listado-mov-loc>

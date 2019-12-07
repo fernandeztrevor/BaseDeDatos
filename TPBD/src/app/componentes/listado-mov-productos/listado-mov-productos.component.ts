@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProductoService } from 'src/app/servicios/producto.service';
 import { MatTableDataSource } from '@angular/material';
@@ -10,10 +10,13 @@ import { MovimientoService } from 'src/app/servicios/movimiento.service';
   styleUrls: ['./listado-mov-productos.component.css']
 })
 export class ListadoMovProductosComponent implements OnInit {
-  public lista$: Observable<any[]>;
+  //public lista$: Observable<any[]>;
   public listaMov$: Observable<any[]>;
   columnasTabla: string[];
   datosTabla: MatTableDataSource<any>;
+
+  @Input() idSeleccionado:string;
+  @Input() lista$: Observable<any[]>;
 
   constructor(private productoService: ProductoService, private movimientoService: MovimientoService) { }
 
@@ -25,23 +28,15 @@ export class ListadoMovProductosComponent implements OnInit {
       'tipo',
       'cantidad'
     ];
-    this.listaMov$ = this.productoService.traerMovProductos();
+    this.lista$.subscribe(datos => {
+      this.datosTabla = new MatTableDataSource(datos);
+    });
+  }
 
-    // this.lista$.subscribe(datos => {
-    //   this.datosTabla = new MatTableDataSource(datos);
-    // });
-
-    this.productoService.traerTodosLosMovsProd();
-    // this.productoService.traerMovProductos().subscribe(movimientos => {
-    //   console.log(movimientos);
-    //   movimientos.forEach(movFE => {
-    //     console.log("culo");
-    //     console.log(movFE);
-    //   });
-    //   });
-    
-
-    
+  cambiarDatos(){
+    this.lista$.subscribe(datos => {
+      this.datosTabla = new MatTableDataSource(datos);
+    });
   }
 
 }

@@ -40,6 +40,7 @@ import { ListadoMovUsuariosComponent } from './componentes/listado-mov-usuarios/
 import { ListadoMovLocalesComponent } from './componentes/listado-mov-locales/listado-mov-locales.component';
 import { ListadoMovProductosComponent } from './componentes/listado-mov-productos/listado-mov-productos.component';
 import { TablaListadoMovLocComponent } from './componentes/tabla-listado-mov-loc/tabla-listado-mov-loc.component';
+import { TablaListadoMovProdComponent } from './componentes/tabla-listado-mov-prod/tabla-listado-mov-prod.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { TablaListadoMovLocComponent } from './componentes/tabla-listado-mov-loc
     ListadoMovUsuariosComponent,
     ListadoMovLocalesComponent,
     ListadoMovProductosComponent,
-    TablaListadoMovLocComponent
+    TablaListadoMovLocComponent,
+    TablaListadoMovProdComponent
   ],
   imports: [
     BrowserModule,

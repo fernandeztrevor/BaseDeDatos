@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material';
 import { ProductoService } from 'src/app/servicios/producto.service';
@@ -26,6 +26,7 @@ import { LocalService } from 'src/app/servicios/local.service';
 })
 export class TablaListadoProductosComponent implements OnInit {
   @Input() rol: string;
+  @Output() listaMov: EventEmitter<Observable<any[]>>;
   lista$: Observable<any[]>;
   columnasTabla: string[];
   datosTabla: MatTableDataSource<any>;
@@ -34,9 +35,11 @@ export class TablaListadoProductosComponent implements OnInit {
   nombreApellido: string;
   productos: AngularFirestoreCollection;
   cantidadNueva: number = 0;
+  listaMovimientos$: Observable<any[]>;
 
   constructor(private productoService: ProductoService, private authService: AuthService, private angularFireStore: AngularFirestore, private movimientoService: MovimientoService, private localService: LocalService) {
     this.productos = this.angularFireStore.collection<ProductoInt>('productos');
+    this.listaMov = new EventEmitter<Observable<any[]>>();
   }
 
   ngOnInit() {
@@ -50,6 +53,7 @@ export class TablaListadoProductosComponent implements OnInit {
         'fechaCreacion',
         'local',
         'activo',
+        'movimientos'
         //'id'
       ];
     } else {
@@ -59,7 +63,8 @@ export class TablaListadoProductosComponent implements OnInit {
         'cantidad',
         'fechaCreacion',
         'local',
-        'activo'
+        'activo',
+        'movimientos'
       ];
     }
     this.lista$.subscribe(datos => {
@@ -163,6 +168,12 @@ export class TablaListadoProductosComponent implements OnInit {
       );
     });
     this.cantidadNueva = 0;
+  }
+
+  mostrarMovimientos(id: string) {
+
+    this.listaMovimientos$ = this.productoService.traerMovProductos(id);
+    this.listaMov.emit(this.listaMovimientos$);
   }
 
 }
