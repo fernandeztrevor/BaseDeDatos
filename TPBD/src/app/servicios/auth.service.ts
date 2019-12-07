@@ -15,6 +15,8 @@ import { BarraHerramientasComponent } from '../componentes/barra-herramientas/ba
 })
 export class AuthService {
   usuario$: Observable<UsuarioInt>;
+  nombreUsuario: string;
+  
   constructor(
     private angularFireAuth: AngularFireAuth,
     private angularFireStore: AngularFirestore,
@@ -98,6 +100,7 @@ export class AuthService {
           return this.angularFireStore
             .doc<UsuarioInt>(`usuarios/${usuario.uid}`)
             .valueChanges();
+            
         } else {
           return of(null);
         }

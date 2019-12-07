@@ -42,7 +42,7 @@ export class ProductoService {
             tipo: TipoMovimiento.agregar,
             usuario: email,
             producto: producto.nombre,
-            local: localFE,
+            local: localFE.nombre,
             cantidad: 0
           }
           this.movimientoService.persistirMovimiento(movimientosTmp, doc.id, "productos");

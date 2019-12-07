@@ -1,9 +1,10 @@
 <mat-form-field>
-    <input matInput placeholder="Filtros" />
+    <input matInput placeholder="Filtros" (keyup)="doFilter($event.target.value)"/>
 </mat-form-field>
 
 <div>
-    <table mat-table [dataSource]="datosTabla" multiTemplateDataRows>
+    <table mat-table [dataSource]="datosTabla" multiTemplateDataRows>        
+        
         <ng-container matColumnDef="nombre">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
             <td mat-cell *matCellDef="let producto">{{ producto.nombre }}</td>
@@ -33,9 +34,9 @@
             </td>
         </ng-container>
 
-        
 
-        <ng-container *ngIf="rol == 'Administrador'" matColumnDef="local">
+
+        <ng-container matColumnDef="local">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Local</th>
             <td mat-cell *matCellDef="let producto"> {{ producto.local }}</td>
         </ng-container>
@@ -48,8 +49,8 @@
         <ng-container matColumnDef="movimientos">
             <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
             <td mat-cell *matCellDef="let producto">
-                <button mat-flat-button mat-button color="warn" (click)="mostrarMovimientos(producto.id)">Ver
-                    Movimientos</button>
+                <button mat-flat-button mat-button color="warn" (click)="mostrarMovimientos(producto.id)"
+                    *ngIf="rol == 'Administrador' || producto.local == localUsuario">Ver Movimientos</button>
             </td>
         </ng-container>
 
@@ -79,20 +80,24 @@
                         <div><img [src]="producto.foto" width="20px" height="20px" /></div>
                         <div><span>{{ producto.descripcion }}</span></div>
                         <div><span>{{ producto.observaciones }}</span></div>
-                        <div><input matInput type="number" min="0" [(ngModel)]="cantidadNueva" >
-                            <button mat-flat-button mat-button (click)="sumarCantidadProducto(cantidadNueva, producto.id)">
+                        <div *ngIf="rol == 'Administrador' || producto.local == localUsuario">
+                            <input matInput type="number" min="0" [(ngModel)]="cantidadNueva">
+                            <button mat-flat-button mat-button
+                                (click)="sumarCantidadProducto(cantidadNueva, producto.id)">
                                 Agregar
                             </button>
-                            <button mat-flat-button mat-button (click)="restarCantidadProducto(cantidadNueva, producto.id)">
+                            <button mat-flat-button mat-button
+                                (click)="restarCantidadProducto(cantidadNueva, producto.id)">
                                 Sacar
                             </button>
                         </div>
                         <div *ngIf="rol == 'Administrador'">
-                            <button mat-flat-button mat-button *ngIf="producto.activo" color="warn" (click)="deshabilitarProductos(producto.id)">
+                            <button mat-flat-button mat-button *ngIf="producto.activo" color="warn"
+                                (click)="deshabilitarProductos(producto.id)">
                                 Deshabilitar
                             </button>
                             <button mat-flat-button mat-button *ngIf="!producto.activo" color="accent"
-                            (click)="habilitarProductos(producto.id)">Habilitar</button>
+                                (click)="habilitarProductos(producto.id)">Habilitar</button>
                         </div>
                     </div>
                 </div>
@@ -104,7 +109,11 @@
             [class.fila-expandida]="productoExpandido === producto"
             (click)="productoExpandido = productoExpandido === producto ? null : producto"></tr>
         <tr mat-row *matRowDef="let columnas; columns: ['detalle']" class="detalle-fila"></tr>
+
+            
+    
     </table>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>
+

@@ -12,11 +12,14 @@ import { UsuarioInt } from 'src/app/interfaces/usuario-int';
   styleUrls: ['./listado-mov-usuarios.component.css']
 })
 export class ListadoMovUsuariosComponent implements OnInit {
-  public lista$: Observable<any[]>;
+  //public lista$: Observable<any[]>;
   public listaMov$: Observable<any[]>;
   columnasTabla: string[];
   datosTabla: MatTableDataSource<any>;
 
+
+  @Input() idSeleccionado:string;
+  @Input() lista$: Observable<any[]>;
 
   constructor(private usuarioService: UsuarioService) { }
 
@@ -28,13 +31,23 @@ export class ListadoMovUsuariosComponent implements OnInit {
       'tipo',
       'cantidad'
     ];
-    this.listaMov$ = this.usuarioService.traerMovUsuarios();
+
+    this.lista$.subscribe(datos => {
+      this.datosTabla = new MatTableDataSource(datos);
+    });
+    //this.listaMov$ = this.usuarioService.traerMovUsuarios();
 
     // this.lista$.subscribe(datos => {
     //   this.datosTabla = new MatTableDataSource(datos);
     // });
 
-    this.usuarioService.traerTodosLosMovsUser();
+    //this.usuarioService.traerTodosLosMovsUser();
+  }
+
+  cambiarDatos(){
+    this.lista$.subscribe(datos => {
+      this.datosTabla = new MatTableDataSource(datos);
+    });
   }
     
   }

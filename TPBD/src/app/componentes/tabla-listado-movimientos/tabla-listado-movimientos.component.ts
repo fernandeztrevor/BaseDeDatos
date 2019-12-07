@@ -22,18 +22,52 @@ export class TablaListadoMovimientosComponent implements OnInit {
   listaUsuarios$: Observable<any[]>;
   listaProductos$: Observable<any[]>;
   listaLocales$: Observable<any[]>;
+  usuario$: Observable<any>;
 
+  public listaMov$: Observable<any[]>;
   columnasTabla: string[];
   datosTabla: MatTableDataSource<any>;
 
-  constructor(private usuarioService: UsuarioService, private productoService: ProductoService, private localService: LocalService, private angularFireStore: AngularFirestore) { }
+
+  @Input() idSeleccionado:string;
+  @Input() lista$: Observable<any[]>;
+
+  constructor(private authService: AuthService, private usuarioService: UsuarioService, private productoService: ProductoService, private localService: LocalService, private angularFireStore: AngularFirestore) { }
 
   ngOnInit() {
-    this.listaUsuarios$ = this.usuarioService.traerUsuarios();
-    this.listaProductos$ = this.productoService.traerProductos();
-    this.listaLocales$ = this.localService.traerLocales();
+    this.columnasTabla = [
+      'producto',
+      'usuario',
+      'local',
+      'tipo',
+      'cantidad'
+    ];
 
-    console.log(this.listaLocales$);
+    // this.lista$.subscribe(datos => {
+    //   this.datosTabla = new MatTableDataSource(datos);
+    // });
+    this.usuario$ = this.authService.traerUsuarioActivo();    
+
+    this.usuario$.subscribe(usr=>{
+      this.lista$ = this.usuarioService.traerMovUsuarios(usr.id);
+      this.lista$.subscribe(datos => {
+        this.datosTabla = new MatTableDataSource(datos);
+      });
+    });
+
+    
+
+    //this.lista$ = this.usuarioService.traerMovUsuarios(this.idSeleccionado);
+  }
+
+  cambiarDatos(){
+    this.lista$.subscribe(datos => {
+      this.datosTabla = new MatTableDataSource(datos);
+    });
+  }
+
+  public doFilter = (value: string) => {
+    this.datosTabla.filter = value.trim().toLocaleLowerCase();
   }
 
 }

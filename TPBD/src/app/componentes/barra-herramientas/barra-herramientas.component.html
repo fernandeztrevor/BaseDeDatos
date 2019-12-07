@@ -11,7 +11,9 @@
           <mat-panel-title>Usuario</mat-panel-title>
         </mat-expansion-panel-header>
 
-        <button mat-button color="accent" (click)="asignarTipoBoton('listarusuarios')">Lista</button>
+        <button *ngIf="rol == 'Administrador'" mat-button color="accent" (click)="asignarTipoBoton('listarusuarios')">Lista</button>
+        <button *ngIf="rol != 'Administrador'" mat-button color="accent" (click)="asignarTipoBoton('movunusuario')">Mis operaciones</button>
+      
       </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
@@ -31,9 +33,13 @@
         <button *ngIf="rol == 'Administrador'" mat-button color="accent" (click)="asignarTipoBoton('altalocal')">
           Alta
         </button>
-        <button mat-button color="accent" (click)="asignarTipoBoton('listarlocales')">
+        <button *ngIf="rol == 'Administrador'" mat-button color="accent" (click)="asignarTipoBoton('listarlocales')">
           Lista
         </button>
+
+        <button *ngIf="rol != 'Administrador'" mat-button color="accent" (click)="asignarTipoBoton('listarempleadoslocal')">
+            Lista De Empleados
+          </button>
       </mat-expansion-panel>
       <mat-expansion-panel *ngIf="rol == 'Administrador'">
         <mat-expansion-panel-header>
@@ -64,7 +70,8 @@
 
   <mat-sidenav-content class="sidenav-contenedor">
     <ng-container [ngSwitch]="tipoBoton">
-      <app-tabla-listado-usuarios *ngSwitchCase="'listarusuarios'" [rol]="rol"></app-tabla-listado-usuarios>
+      <!-- <app-tabla-listado-usuarios *ngSwitchCase="'listarusuarios'" [rol]="rol"></app-tabla-listado-usuarios> -->
+      <app-tabla-listado-mov-usr *ngSwitchCase="'listarusuarios'" [rol]="rol"></app-tabla-listado-mov-usr>
       <!-- <app-tabla-listado-productos *ngSwitchCase="'listarproductos'" [rol]="rol"></app-tabla-listado-productos> -->
       <app-tabla-listado-mov-prod *ngSwitchCase="'listarproductos'" [rol]="rol"></app-tabla-listado-mov-prod>
       <app-alta-producto *ngSwitchCase="'altaproducto'"></app-alta-producto>
@@ -75,6 +82,9 @@
       <app-listado-mov-locales *ngSwitchCase="'listarmovlocales'"></app-listado-mov-locales>
       <app-listado-mov-usuarios *ngSwitchCase="'listarmovusuario'"></app-listado-mov-usuarios>
       <app-listado-mov-productos *ngSwitchCase="'listarmovproductos'"></app-listado-mov-productos>
+      <app-tabla-listado-movimientos *ngSwitchCase="'movunusuario'"></app-tabla-listado-movimientos>
+      <app-tabla-listado-local-usr *ngSwitchCase="'listarempleadoslocal'"></app-tabla-listado-local-usr>
+      
       <p *ngSwitchDefault>Nada Seleccionado</p>
     </ng-container>
   </mat-sidenav-content>

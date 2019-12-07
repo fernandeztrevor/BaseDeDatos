@@ -19,14 +19,15 @@ export class BarraHerramientasComponent implements OnInit {
   constructor(private authService: AuthService) {
     this.usuario$ = authService.traerUsuarioActivo();
     this.tipoBoton = 'ninguno';
+    
+  }
+
+  ngOnInit() {
     this.usuario$.subscribe(usuario => {
       this.foto = usuario.foto;
       this.rol = usuario.rol;
       this.nombreApellido = usuario.nombre + ' ' + usuario.apellido;
     });
-  }
-
-  ngOnInit() {
   }
 
 

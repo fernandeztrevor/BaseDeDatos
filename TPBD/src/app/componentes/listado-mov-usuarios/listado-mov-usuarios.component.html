@@ -1,1 +1,17 @@
-<p>listado-mov-usuarios works!</p>
+<h1>Movimientos</h1>
+<table>
+  <tr>
+    <th>Producto</th>
+    <th>Usuario</th>
+    <th>Local</th>
+    <th>Tipo</th>
+    <th>Cantidad</th>
+  </tr>
+  <tr *ngFor="let movimiento of lista$ | async">
+    <td>{{ movimiento.producto }}</td>
+    <td>{{ movimiento.usuario }}</td>
+    <td>{{ movimiento.local }}</td>
+    <td>{{ movimiento.tipo }}</td>
+    <td>{{ movimiento.cantidad }}</td>
+  </tr>
+</table>

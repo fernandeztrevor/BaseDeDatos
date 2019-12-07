@@ -1,0 +1,14 @@
+<tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Email</th>
+      </tr>
+      
+            <tr  *ngFor="let usuario of lista$ | async" [hidden]="!verificarLocal(usuario.local)">
+                    <td>{{ usuario.nombre }}</td>
+                    <td>{{ usuario.apellido }}</td>
+                    <td>{{ usuario.email }}</td>
+                  </tr>
+
+      
+      

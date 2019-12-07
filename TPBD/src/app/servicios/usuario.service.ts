@@ -19,6 +19,8 @@ export class UsuarioService {
   //usuario$: Observable<any>;
   usuarios: AngularFirestoreCollection;
   movimientos: AngularFirestoreCollection;
+  idSeleccionado: string;
+  usuario: UsuarioInt;
 
   constructor(
 
@@ -125,34 +127,36 @@ export class UsuarioService {
     }));
   }
 
-  traerMovUsuarios(): Observable<any[]> {
+  traerMovUsuarios(id: string): Observable<any[]> {
+
+    this.movimientos = this.angularFireStore.collection<MovimientoInt>(`usuarios/${id}/movimientos`);
     return this.movimientos.snapshotChanges().pipe(
-          map(actions => {
-            return actions.map(action => {
-              const datos = action.payload.doc.data() as MovimientoInt;
-              const id = action.payload.doc.id;
-              return { id, ...datos };
-            });
-          })
-        );
+      map(actions => {
+        return actions.map(action => {
+          const datos = action.payload.doc.data() as MovimientoInt;
+          const id = action.payload.doc.id;
+          return { id, ...datos };
+        });
+      })
+    );
   }
 
-  traerTodosLosMovsUser(){
-   // this.movimientos = this.angularFirestore.collection<ProductoInt>('productos/${uid}/movimientos');
-   
-   this.traerUsuarios().subscribe(prods=>{
-       prods.forEach(unProd => {
-         this.movimientos = this.angularFireStore.collection<MovimientoInt>(`usuarios/${unProd.id}/movimientos`);
-        
-         this.traerMovUsuarios().subscribe(movimient => {
-          
-           movimient.forEach(movFE => {
-             movFE;
-            console.log(movFE);
-          });
-          });
-      });
-    })
+  //   traerTodosLosMovsUser(){
+  //    // this.movimientos = this.angularFirestore.collection<ProductoInt>('productos/${uid}/movimientos');
 
-}
+  //    this.traerUsuarios().subscribe(prods=>{
+  //        prods.forEach(unProd => {
+  //          this.movimientos = this.angularFireStore.collection<MovimientoInt>(`usuarios/${unProd.id}/movimientos`);
+
+  //          this.traerMovUsuarios().subscribe(movimient => {
+
+  //            movimient.forEach(movFE => {
+  //              movFE;
+  //             console.log(movFE);
+  //           });
+  //           });
+  //       });
+  //     })
+
+  // }
 }

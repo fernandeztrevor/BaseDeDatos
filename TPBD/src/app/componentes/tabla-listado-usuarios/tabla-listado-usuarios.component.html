@@ -1,5 +1,5 @@
 <mat-form-field>
-    <input matInput placeholder="Filtros" />
+    <input matInput placeholder="Filtros" (keyup)="doFilter($event.target.value)"/>
 </mat-form-field>
 <div>
     <table mat-table [dataSource]="datosTabla" matSort>
@@ -35,6 +35,14 @@
                     (click)="deshabilitarUsuario(usuario.id)">Deshabilitar</button>
                     <button mat-flat-button mat-button *ngIf="!usuario.activo" color="accent"
                     (click)="habilitarUsuario(usuario.id)">Habilitar</button>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="movimientos" *ngIf="rol == 'Administrador'  || usuario.nombre == this.nombreUsuario">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <td mat-cell *matCellDef="let usuario">
+                <button mat-flat-button mat-button color="warn" (click)="mostrarMovimientos(usuario.id)">Ver
+                    Movimientos</button>
             </td>
         </ng-container>
 

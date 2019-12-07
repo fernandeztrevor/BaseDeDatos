@@ -67,5 +67,9 @@ export class TablaListadoLocalesComponent implements OnInit {
 
   }
 
+  public doFilter = (value: string) => {
+    this.datosTabla.filter = value.trim().toLocaleLowerCase();
+  }
+
 
 }

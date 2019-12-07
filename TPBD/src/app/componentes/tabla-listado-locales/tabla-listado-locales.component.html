@@ -1,5 +1,5 @@
 <mat-form-field>
-    <input matInput placeholder="Filtros" />
+    <input matInput placeholder="Filtros" (keyup)="doFilter($event.target.value)"/>
 </mat-form-field>
 <div>
     <table mat-table [dataSource]="datosTabla" matSort>

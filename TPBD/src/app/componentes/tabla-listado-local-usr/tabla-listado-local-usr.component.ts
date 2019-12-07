@@ -1,15 +1,19 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs';
 import { MatTableDataSource } from '@angular/material';
 import { AuthService } from 'src/app/servicios/auth.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
+import { ProductoService } from 'src/app/servicios/producto.service';
+import { LocalService } from 'src/app/servicios/local.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-tabla-listado-usuarios',
-  templateUrl: './tabla-listado-usuarios.component.html',
-  styleUrls: ['./tabla-listado-usuarios.component.css']
+  selector: 'app-tabla-listado-local-usr',
+  templateUrl: './tabla-listado-local-usr.component.html',
+  styleUrls: ['./tabla-listado-local-usr.component.css']
 })
-export class TablaListadoUsuariosComponent implements OnInit {
+export class TablaListadoLocalUsrComponent implements OnInit {
+
   @Input() rol: string;
 
   lista$: Observable<any[]>;
@@ -18,6 +22,7 @@ export class TablaListadoUsuariosComponent implements OnInit {
   @Output() listaMov: EventEmitter<Observable<any[]>>;
   listaMovimientos$: Observable<any[]>;
   nombreUsuario: string;
+  localUsuario: string;
 
   constructor(private authService: AuthService, 
     private usuarioService: UsuarioService) {
@@ -31,23 +36,14 @@ export class TablaListadoUsuariosComponent implements OnInit {
       this.columnasTabla = [
         'nombre',
         'apellido',
-        'email',
-        'activo',
-        'rol',
-        'local',
-        'id', 
-        'movimientos'
+        'email'
         
       ]
     } else {
       this.columnasTabla = [
         'nombre',
         'apellido',
-        'email',
-        'activo',
-        'rol',
-        'local', 
-        'movimientos'
+        'email'
       ];
     }
     this.lista$.subscribe(datos => {
@@ -56,27 +52,21 @@ export class TablaListadoUsuariosComponent implements OnInit {
 
     this.authService.traerUsuarioActivo().subscribe(usuarioAct => {
       this.nombreUsuario =  usuarioAct.nombre;
+      this.localUsuario = usuarioAct.local;
+
       });
   }
 
-  deshabilitarUsuario(id: string) {
-    this.usuarioService.deshabilitarUsuario(id);
-  }
+  verificarLocal(local: string): boolean{
+    let retorno = null;
+    if(local == this.localUsuario || this.nombreUsuario == "Administrador"){
+      retorno = true;
+    }else{
+      retorno = false;
+    }
 
-  habilitarUsuario(id: string) {
-    this.usuarioService.habilitarUsuario(id);
-  }
 
-  mostrarMovimientos(id: string) {
-
-    this.listaMovimientos$ = this.usuarioService.traerMovUsuarios(id);
-    this.listaMov.emit(this.listaMovimientos$);
-    //console.log(this.localUsuario);
-
-  }
-
-  public doFilter = (value: string) => {
-    this.datosTabla.filter = value.trim().toLocaleLowerCase();
+return retorno;
   }
 
 }

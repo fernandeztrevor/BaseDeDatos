@@ -36,6 +36,7 @@ export class TablaListadoProductosComponent implements OnInit {
   productos: AngularFirestoreCollection;
   cantidadNueva: number = 0;
   listaMovimientos$: Observable<any[]>;
+  localUsuario: string;
 
   constructor(private productoService: ProductoService, private authService: AuthService, private angularFireStore: AngularFirestore, private movimientoService: MovimientoService, private localService: LocalService) {
     this.productos = this.angularFireStore.collection<ProductoInt>('productos');
@@ -70,6 +71,10 @@ export class TablaListadoProductosComponent implements OnInit {
     this.lista$.subscribe(datos => {
       this.datosTabla = new MatTableDataSource(datos);
     });
+
+    this.authService.traerUsuarioActivo().subscribe(usuarioAct => {
+      this.localUsuario =  usuarioAct.local;
+      });
   }
 
   deshabilitarProductos(id: string) {
@@ -148,7 +153,7 @@ export class TablaListadoProductosComponent implements OnInit {
             usuario: usuario.email,
             producto: product.get('nombre'),
             local: product.get('local'),
-            cantidad: 0
+            cantidad: cantidad
           }
 
           this.localService.traerLocales().subscribe(locales => {
@@ -174,6 +179,10 @@ export class TablaListadoProductosComponent implements OnInit {
 
     this.listaMovimientos$ = this.productoService.traerMovProductos(id);
     this.listaMov.emit(this.listaMovimientos$);
+  }
+
+  public doFilter = (value: string) => {
+    this.datosTabla.filter = value.trim().toLocaleLowerCase();
   }
 
 }
