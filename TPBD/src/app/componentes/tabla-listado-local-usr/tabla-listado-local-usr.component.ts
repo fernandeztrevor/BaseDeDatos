@@ -28,36 +28,58 @@ export class TablaListadoLocalUsrComponent implements OnInit {
     private usuarioService: UsuarioService) {
     this.listaMov = new EventEmitter<Observable<any[]>>();
     this.nombreUsuario = this.authService.nombreUsuario;
+
+    this.lista$ = new Observable<any[]>();
   }
 
   ngOnInit() {
-    this.lista$ = this.usuarioService.traerUsuarios();
-    if (this.rol === 'Administrador') {
-      this.columnasTabla = [
-        'nombre',
-        'apellido',
-        'email'
+    
+     this.lista$ = this.usuarioService.traerUsuarios();
 
-      ]
-    } else {
-      this.columnasTabla = [
-        'nombre',
-        'apellido',
-        'email'
-      ];
-    }
-    this.lista$.subscribe(datos => {
-      this.datosTabla = new MatTableDataSource(datos);
-    });
+     if (this.rol === 'Administrador') {
+       this.columnasTabla = [
+         'nombre',
+         'apellido',
+         'email'
+       ]
+     } else {
+       this.columnasTabla = [
+         'nombre',
+         'apellido',
+         'email'
+       ];
+     }
+     this.lista$.subscribe(datos => {
+       this.datosTabla = new MatTableDataSource(datos);
+     });
 
-    this.authService.traerUsuarioActivo().subscribe(usuarioAct => {
-      this.nombreUsuario = usuarioAct.nombre;
-      this.localUsuario = usuarioAct.local;
+     this.authService.traerUsuarioActivo().subscribe(usuarioAct => {
+       this.nombreUsuario = usuarioAct.nombre;
+       this.localUsuario = usuarioAct.local;
 
-    });
+     });
+
+    // this.authService.traerUsuarioActivo().subscribe(usuarioAct => {
+    //   this.localUsuario = usuarioAct.local;
+    //   this.usuarioService.traerUsuarios().subscribe(usrs => {
+    //     usrs.forEach(unUsr => {
+
+    //       console.log(unUsr.local);
+    //       console.log(this.localUsuario);
+    //       if (unUsr.local == this.localUsuario) {
+    //         this.lista$.subscribe(datos => {
+    //           this.datosTabla = new MatTableDataSource(datos);
+    //         });
+    //       }
+    //     });
+        
+    //   });
+    // });
   }
 
   verificarLocal(local: string): boolean {
+
+    console.log(local); 
     let retorno = null;
     if (local == this.localUsuario || this.nombreUsuario == "Administrador") {
       retorno = true;
@@ -67,6 +89,10 @@ export class TablaListadoLocalUsrComponent implements OnInit {
 
 
     return retorno;
+  }
+
+  public doFilter = (value: string) => {
+    this.datosTabla.filter = value.trim().toLocaleLowerCase();
   }
 
 }

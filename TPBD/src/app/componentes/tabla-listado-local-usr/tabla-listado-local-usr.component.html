@@ -1,14 +1,37 @@
 <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Email</th>
-      </tr>
-      
-            <tr  *ngFor="let usuario of lista$ | async" [hidden]="!verificarLocal(usuario.local)">
-                    <td>{{ usuario.nombre }}</td>
-                    <td>{{ usuario.apellido }}</td>
-                    <td>{{ usuario.email }}</td>
-                  </tr>
+  <th>Nombre</th>
+  <th>Apellido</th>
+  <th>Email</th>
+</tr>
 
-      
-      
+<tr *ngFor="let usuario of lista$ | async" [hidden]="!verificarLocal(usuario.local)">
+  <td>{{ usuario.nombre }}</td>
+  <td>{{ usuario.apellido }}</td>
+  <td>{{ usuario.email }}</td>
+</tr>
+
+<!-- <mat-form-field>
+    <input matInput placeholder="Filtros" (keyup)="doFilter($event.target.value)"/>
+</mat-form-field>
+<div>
+    <table mat-table [dataSource]="datosTabla" matSort>
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell *matCellDef="let usuario">{{ usuario.nombre }}</td>
+        </ng-container>
+        <ng-container matColumnDef="apellido">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellido</th>
+            <td mat-cell *matCellDef="let usuario">{{ usuario.apellido }}</td>
+        </ng-container>
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+            <td mat-cell *matCellDef="let usuario">{{ usuario.email }}</td>
+        </ng-container>
+        
+        
+
+        <tr mat-header-row *matHeaderRowDef="columnasTabla"></tr>
+        <tr mat-row *matRowDef="let columnas; columns: columnasTabla"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div> -->
