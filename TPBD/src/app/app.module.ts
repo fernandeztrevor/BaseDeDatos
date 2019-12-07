@@ -43,6 +43,7 @@ import { TablaListadoMovLocComponent } from './componentes/tabla-listado-mov-loc
 import { TablaListadoMovProdComponent } from './componentes/tabla-listado-mov-prod/tabla-listado-mov-prod.component';
 import { TablaListadoMovUsrComponent } from './componentes/tabla-listado-mov-usr/tabla-listado-mov-usr.component';
 import { TablaListadoLocalUsrComponent } from './componentes/tabla-listado-local-usr/tabla-listado-local-usr.component';
+import { TabListMovUnLocComponent } from './componentes/tab-list-mov-un-loc/tab-list-mov-un-loc.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { TablaListadoLocalUsrComponent } from './componentes/tabla-listado-local
     TablaListadoMovLocComponent,
     TablaListadoMovProdComponent,
     TablaListadoMovUsrComponent,
-    TablaListadoLocalUsrComponent
+    TablaListadoLocalUsrComponent,
+    TabListMovUnLocComponent
   ],
   imports: [
     BrowserModule,

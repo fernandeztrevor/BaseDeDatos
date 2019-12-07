@@ -18,17 +18,17 @@ export class TablaListadoLocalUsrComponent implements OnInit {
 
   lista$: Observable<any[]>;
   columnasTabla: string[];
-  datosTabla: MatTableDataSource<any>;  
+  datosTabla: MatTableDataSource<any>;
   @Output() listaMov: EventEmitter<Observable<any[]>>;
   listaMovimientos$: Observable<any[]>;
   nombreUsuario: string;
   localUsuario: string;
 
-  constructor(private authService: AuthService, 
+  constructor(private authService: AuthService,
     private usuarioService: UsuarioService) {
-      this.listaMov = new EventEmitter<Observable<any[]>>();
-      this.nombreUsuario = this.authService.nombreUsuario;
-     }
+    this.listaMov = new EventEmitter<Observable<any[]>>();
+    this.nombreUsuario = this.authService.nombreUsuario;
+  }
 
   ngOnInit() {
     this.lista$ = this.usuarioService.traerUsuarios();
@@ -37,7 +37,7 @@ export class TablaListadoLocalUsrComponent implements OnInit {
         'nombre',
         'apellido',
         'email'
-        
+
       ]
     } else {
       this.columnasTabla = [
@@ -51,22 +51,22 @@ export class TablaListadoLocalUsrComponent implements OnInit {
     });
 
     this.authService.traerUsuarioActivo().subscribe(usuarioAct => {
-      this.nombreUsuario =  usuarioAct.nombre;
+      this.nombreUsuario = usuarioAct.nombre;
       this.localUsuario = usuarioAct.local;
 
-      });
+    });
   }
 
-  verificarLocal(local: string): boolean{
+  verificarLocal(local: string): boolean {
     let retorno = null;
-    if(local == this.localUsuario || this.nombreUsuario == "Administrador"){
+    if (local == this.localUsuario || this.nombreUsuario == "Administrador") {
       retorno = true;
-    }else{
+    } else {
       retorno = false;
     }
 
 
-return retorno;
+    return retorno;
   }
 
 }

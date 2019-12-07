@@ -40,6 +40,9 @@
         <button *ngIf="rol != 'Administrador'" mat-button color="accent" (click)="asignarTipoBoton('listarempleadoslocal')">
             Lista De Empleados
           </button>
+          <button *ngIf="rol != 'Administrador'" mat-button color="accent" (click)="asignarTipoBoton('traerMovLocal')">
+              Lista De Movimientos
+            </button>
       </mat-expansion-panel>
       <mat-expansion-panel *ngIf="rol == 'Administrador'">
         <mat-expansion-panel-header>
@@ -84,6 +87,7 @@
       <app-listado-mov-productos *ngSwitchCase="'listarmovproductos'"></app-listado-mov-productos>
       <app-tabla-listado-movimientos *ngSwitchCase="'movunusuario'"></app-tabla-listado-movimientos>
       <app-tabla-listado-local-usr *ngSwitchCase="'listarempleadoslocal'"></app-tabla-listado-local-usr>
+      <app-tab-list-mov-un-loc  *ngSwitchCase="'traerMovLocal'"></app-tab-list-mov-un-loc>
       
       <p *ngSwitchDefault>Nada Seleccionado</p>
     </ng-container>
