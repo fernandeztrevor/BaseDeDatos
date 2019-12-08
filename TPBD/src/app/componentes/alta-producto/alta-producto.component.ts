@@ -87,7 +87,7 @@ export class AltaProductoComponent implements OnInit {
                   tipo: TipoMovimiento.crear,
                   usuario: email,
                   producto: productoTemp.nombre,
-                  local: localFE,
+                  local: localFE.nombre,
                   cantidad: 0
                 }
                 this.movimientoService.persistirMovimiento(movimientosTmp, doc.id, "productos");

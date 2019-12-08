@@ -38,14 +38,19 @@ export class ProductoService {
           this.authService.traerUsuarioActivo().subscribe(usuarioAct => {
             email = usuarioAct.email;
           });
-          const movimientosTmp = {
-            tipo: TipoMovimiento.agregar,
-            usuario: email,
-            producto: producto.nombre,
-            local: localFE.nombre,
-            cantidad: 0
-          }
-          this.movimientoService.persistirMovimiento(movimientosTmp, doc.id, "productos");
+          
+          console.log(localFE.nombre);
+
+            const movimientosTmp = {
+              tipo: TipoMovimiento.agregar,
+              usuario: email,
+              producto: producto.nombre,
+              local: localFE.nombre,
+              cantidad: 0
+            }
+
+            this.movimientoService.persistirMovimiento(movimientosTmp, doc.id, "productos");
+          
         });
       });
     });
